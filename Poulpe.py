@@ -10,7 +10,7 @@ from Calmar import Calmar
 class Poulpe:
 
 
-    def __init__(self, vision):
+    def __init__(self, vision=None):
 
         self.listeCalmar = []
         self.vision = vision
@@ -41,6 +41,8 @@ class Poulpe:
 
         self.listeCalmar = calmars
 
+        self.update_mesh()
+
 
     """
     Desc : Calcule le champs totale de tous les aimant a un point pos
@@ -59,10 +61,10 @@ class Poulpe:
 
         return Btot
 
-    def field_mesh(self, vision):
+    def update_Mesh(self):
 
-        x = vision.axes.xlim()
-        y = vision.axes.ylim()
+        x = self.vision.axes.xlim()
+        y = self.vision.axes.ylim()
         X = np.linspace( x[0], x[1], 10000 )
         Y = np.linspace( y[0], y[1], 10000 )
 
@@ -73,8 +75,9 @@ class Poulpe:
         for x in X:
             for y in Y:
                 field[i] = self.compute_field(np.array([x,y]))
-                i++
+                i += 1
 
-        cont = vision.axes.tricontourf(mesh, field)
+        cont = self.vision.axes.tricontourf(mesh, field)
         
+        self.vision.update_graph()
 

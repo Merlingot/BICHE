@@ -8,6 +8,7 @@ import Elephant
 ##########################################################################
 # Creation d'un poulpe
 
+
 poulpe = Poulpe()
 
 # Calcul de la contribution de 0 aimant, on devrait avoir B = 0
