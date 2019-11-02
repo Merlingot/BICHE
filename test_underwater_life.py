@@ -1,10 +1,13 @@
 import numpy as np
+import tkinter as tk
+root = tk.Tk()
 from Poulpe import Poulpe
 from Calmar import Calmar
 import Elephant
 
 ##########################################################################
 # Creation d'un poulpe
+
 
 poulpe = Poulpe()
 
@@ -17,7 +20,12 @@ print(Btot)
 ##########################################################################
 # Add un aimant
 
-poulpe.add_calmar(10., np.array([0.,0.]))
+pos = np.array([tk.DoubleVar(), tk.DoubleVar()])
+pos[0].set(1)
+pos[1].set(1)
+m = tk.DoubleVar()
+m.set(10)
+poulpe.add_calmar(m, pos)
 
 # Recompute total field, on ne devrait pas avoir 0
 
@@ -28,7 +36,19 @@ print(Btot)
 ###########################################################################
 # Ajout d'une liste de Calmars
 
-cal = [Calmar(100., np.array([2.,2.])), Calmar(1000., np.array([0.,1.])) ]
+pos1 = np.array([tk.DoubleVar(), tk.DoubleVar()])
+pos1[0].set(1)
+pos1[1].set(1)
+m1 = tk.DoubleVar()
+m1.set(10)
+
+pos2 = np.array([tk.DoubleVar(), tk.DoubleVar()])
+pos2[0].set(1)
+pos2[1].set(1)
+m2 = tk.DoubleVar()
+m2.set(10)
+
+cal = [Calmar(m1,pos1), Calmar(m2,pos2) ]
 
 poulpe.add_calmar_liste(cal)
 
