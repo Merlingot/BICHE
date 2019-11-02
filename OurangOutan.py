@@ -12,10 +12,11 @@ class Lion(tk.Tk):
         # Grid scaling
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
-        Hyene(self).grid(row=1, column=1)
+        Hyene(self).grid(row=1, column=2)
         Lionceau(self).grid(row=1, column=0)
-        LionneQuiJuge(self).grid(row=0, column=1)
-        LionneQuiRegarde(self).grid(row=0, column=0)
+        Fourmi(self).grid(row=1, column=1)
+        LionneQuiJuge(self).grid(row=0, column=2)
+        LionneQuiRegarde(self).grid(row=0, column=0, columnspan=2)
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
@@ -82,6 +83,35 @@ class Lionceau(ttk.LabelFrame):
         vitYE.grid(row=1, column=2, sticky='nsew')
         forceE.grid(row=2, column=1, sticky='nsew',
                    columnspan=2)
+
+        for i in range(2):
+            self.grid_columnconfigure(i, weight=1)
+            for j in range(2):
+                self.grid_rowconfigure(j, weight=1)
+
+class Fourmi(ttk.LabelFrame):
+    def __init__(self, parent):
+        ttk.LabelFrame.__init__(self, parent, text='Fourmi')
+        self.dq = tk.DoubleVar()
+        self.nt = tk.IntVar()
+        self.dt = tk.DoubleVar()
+
+        tk.Label(self, text='\u03B4'+'q :').grid(row=0, column=0,
+                                                     sticky='nw')
+        tk.Label(self, text='\u03B4'+'t :').grid(row=1, column=0,
+                                                   sticky='nw')
+        tk.Label(self, text='nt:').grid(row=2, column=0,
+                                                   sticky='nw')
+        dqE = tk.Entry(self, textvariable=self.dq,
+                        width=6)
+        dtE = tk.Entry(self, textvariable=self.dt,
+                        width=6)
+        dntE = tk.Entry(self, textvariable=self.nt,
+                        width=6)
+
+        dqE.grid(row=0, column=1, sticky='nsew')
+        dtE.grid(row=1, column=1, sticky='nsew')
+        dntE.grid(row=2, column=1, sticky='nsew')
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
