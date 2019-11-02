@@ -8,9 +8,9 @@ from Calmar import Calmar
 
 class Poulpe:
 
-	
+
     def __init__(self):
-        
+
         self.listeCalmar = []
 
     """
@@ -23,6 +23,17 @@ class Poulpe:
     def add_calmar(self, pos, m):
 
         self.listeCalmar.append( Calmar(pos, m) )
+
+    """
+    Desc : Ajoute plusieurs calmar d'un seul cour a la liste de Calmar
+
+    Parametres:
+        calmars : liste de Calmars a ajouter a SSQQUUUIIIDDD
+    """
+    def add_calmar_liste(self, calmars):
+
+        for calmar in calmars:
+            self.listeCalmar.append(calmar)
 
     """
     Desc : Calcule le champs totale de tous les aimant a un point pos
