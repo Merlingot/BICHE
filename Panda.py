@@ -7,7 +7,7 @@ class Panda:
         vit0 = np.array([vx,vy])
                 Initial velocity
         m = np.array([0,0,mz])
-            Moment dipolaire 
+            Moment dipolaire
         """
         self.pos0 = pos0
         self.vit0 = vit0
