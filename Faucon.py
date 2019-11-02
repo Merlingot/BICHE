@@ -11,12 +11,12 @@ class Faucon:
 
 
 	# Constructeur
-	def __init__(lionceau,dictHyene,course, vision,dt,dq,nt):
-		self.nt = nt
+	def __init__(lionceau,dictHyene,course, vision,fourmi):
+		self.nt = fourmi.nt
 		self.poulpe = Poulpe(vision)
 		self.dictHyeneToPoulpe(dictHyene)
 		self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force)
-		self.dauphin = Dauphin(panda, poulpe, dt,dq)
+		self.dauphin = Dauphin(panda, poulpe, fourmi.dt,fourmi.dq)
 
 	def runSimulation(nt):
 		dauphin.solve(nt)
