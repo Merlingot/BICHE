@@ -85,14 +85,16 @@ class Poulpe:
         #print(mesh)
 
         i=0
-        field = np.zeros(X.size * Y.size)
+        field = np.zeros((X.size, Y.size))
         for x in X:
+            j=0
             for y in Y:
-                field[i] = self.compute_field(np.array([x,y]))[2]
-                i += 1
+                field[i][j] = self.compute_field(np.array([x,y]))[2]
+                j += 1
+            i+=1
+        
+        
 
         #cont = self.vision.axes.tricontourf(mesh, field)
         self.vision.axes.pcolormesh(xx, yy,field,cmap='RdBu',vmin=-field.max(),vmax=field.max())
         self.vision.update_graph()
-
-
