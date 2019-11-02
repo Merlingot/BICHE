@@ -12,12 +12,15 @@ class Faucon:
 	dx = 0.1
 	epsilon = 0.001
 
-
 	# Constructeur
-	def __init__(_lionceau,_dictHyene):
-
+	def __init__(lionceau,dictHyene):
 		poulpe = Poulpe()
-		panda = Panda(_lionceau)
+		poulpe.add(dictHyeneToCalmarList(dictHyene))
+		panda = Panda(lionceau)
 		dauphin = Dauphin(Panda, Poulpe, dt,dx)
 
-	def dictHyeneToCalmarList(_dictHyene)
+#Transforme un dictionnaire de Hyene en liste de Calmar
+def dictHyeneToCalmarList(dictHyene):
+	calmarList = []
+	for key in dictHyene:
+		calmarList.append(Calmar(dictHyene[key].force,dictHyene[key].pos))
