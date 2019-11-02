@@ -25,7 +25,7 @@ class Poulpe:
         self.listeCalmar.append( Calmar(pos, m) )
 
     """
-    Desc : Ajoute plusieurs calmar d'un seul cour a la liste de Calmar
+    Desc : Ajoute plusieurs calmar d'un seul cout a la liste de Calmar
 
     Parametres:
         calmars : liste de Calmars a ajouter a SSQQUUUIIIDDD
@@ -44,13 +44,10 @@ class Poulpe:
     """
     def compute_field(self, pos ):
 
-        Btot = np.array([0.,0.,0.]) 
+        Btot = np.array([0.,0.,0.])
 
         for calmar in self.listeCalmar:
-            
+
             Btot += calmar.compute_contribution(pos)
 
         return Btot
-
-    
-
