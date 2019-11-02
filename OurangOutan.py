@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from Cameleon import *
-
+from Faucon import *
 class Lion(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -12,12 +12,20 @@ class Lion(tk.Tk):
         # Grid scaling
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
-        Hyene(self).grid(row=1, column=2)
-        Lionceau(self).grid(row=1, column=0)
-        Fourmi(self).grid(row=1, column=1)
-        LionneQuiJuge(self).grid(row=0, column=2)
-        LionneQuiRegarde(self).grid(row=0, column=0, columnspan=2)
-
+        hyene = Hyene(self)
+        hyene.grid(row=1, column=2)
+        lionceau = Lionceau(self)
+        lionceau.grid(row=1, column=0)
+        fourmi = Fourmi(self)
+        fourmi.grid(row=1, column=1)
+        lionneQuiJuge = LionneQuiJuge(self)
+        lionneQuiJuge.grid(row=0, column=2)
+        lionneQuiRegarde = LionneQuiRegarde(self)
+        lionneQuiRegarde.grid(row=0, column=0, columnspan=2)
+        Faucon(lionceau, hyene.dictHyene,
+               lionneQuiJuge.course,
+               lionneQuiRegarde.vision,
+               fourmi)
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
             for j in range(2):
