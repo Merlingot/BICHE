@@ -1,6 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.tri as tri
+
 from Calmar import Calmar
 
 ## Classe utiliser pour obtenir le champs magnetique en tout point grace a une liste de aimants (Calmar)
@@ -9,9 +8,12 @@ from Calmar import Calmar
 
 class Poulpe:
 
-
-    def __init__(self, vision):
-
+    """
+    Desc: Constructeur
+    Parametres:
+        vision : object graphique du GUI pour la fonction update_Mesh
+    """
+    def __init__(self, vision=None):
         self.listeCalmar = []
         self.vision = vision
 
@@ -27,7 +29,7 @@ class Poulpe:
         self.listeCalmar.append( Calmar(pos, m) )
 
     """
-    Desc : Ajoute plusieurs calmar d'un seul cour a la liste de Calmar
+    Desc : Ajoute plusieurs calmar d'un seul cout a la liste de Calmar
 
     Parametres:
         calmars : liste de Calmars a ajouter a SSQQUUUIIIDDD
@@ -38,6 +40,18 @@ class Poulpe:
             self.listeCalmar.append(calmar)
 
     """
+    Desc : remplace la liste de Calmars presente par une nouvelle liste de Calmars
+
+    Parametres:
+        calmars : nouvelle liste de calmars
+    """
+    def set_Calmars(self, calmars):
+
+        self.listeCalmar = calmars
+
+        self.update_mesh()
+
+    """
     Desc : Calcule le champs totale de tous les aimant a un point pos
 
     Parametres:
@@ -46,18 +60,21 @@ class Poulpe:
     """
     def compute_field(self, pos ):
 
-        Btot = np.array([0.,0.,0.]) 
+        Btot = np.array([0.,0.,0.])
 
         for calmar in self.listeCalmar:
-            
+
             Btot += calmar.compute_contribution(pos)
 
         return Btot
 
-    def field_mesh(self, vision):
+    """
+    Desc : Update values dans le graph GUI VISION grace a la fonction compute_field
+    """
+    def update_Mesh(self):
 
-        x = vision.axes.xlim()
-        y = vision.axes.ylim()
+        x = self.vision.axes.xlim()
+        y = self.vision.axes.ylim()
         X = np.linspace( x[0], x[1], 10000 )
         Y = np.linspace( y[0], y[1], 10000 )
 
@@ -68,8 +85,10 @@ class Poulpe:
         for x in X:
             for y in Y:
                 field[i] = self.compute_field(np.array([x,y]))
-                i++
+                i += 1
 
-        cont = vision.axes.tricontourf(mesh, field)
+        cont = self.vision.axes.tricontourf(mesh, field)
         
+        self.vision.update_graph()
+
 
