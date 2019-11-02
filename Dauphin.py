@@ -23,26 +23,26 @@ class Dauphin:
         self.dt = dt # time step
         self.dq = dq # space step
 
-    def solve(N):
+    def solve(self, N):
         """
         Solve for N time steps
         """
         # n=1 step -------------------------------------------------
         # Calculate next position (and velocity - TO DO)
-        pos1 = verletStep1(self.panda, self.poulpe, self.dt, self.dq)
+        pos1 = verlet_step_1(self.panda, self.poulpe, self.dt, self.dq)
         # Update position (and velocity - TO DO)
         self.panda.update_pos(pos1)
         # n>1 steps ------------------------------------------------
         if N > 1:
             for n in range(N-1):
                 # Calculate next position (and velocity - TO DO)
-                posn = verletStepN(self.panda, self.pouple, self.dt, self.dq)
+                posn = verlet_step_n(self.panda, self.poulpe, self.dt, self.dq)
                 # Update position (and velocity - TO DO)
                 self.panda.update_pos(posn)
         return 1
 
 
-def spaceDerivativeEnergy(panda, poulpe, dq):
+def space_derivative_energy(panda, poulpe, dq):
     """Calculates the energy derivatives in x and y in space at the position pos.
     Derivative :
             U(q) = -m@B(q) -> U(q+dq)=-m@B(q+dq)
@@ -63,7 +63,7 @@ def spaceDerivativeEnergy(panda, poulpe, dq):
     return vecDerivative
 
 
-def verletStep1(panda, poulpe, dt, dq):
+def verlet_step_1(panda, poulpe, dt, dq):
     """First step of Verlet integration
     Calculates position at time n=1 from intial conditions
 
@@ -77,10 +77,10 @@ def verletStep1(panda, poulpe, dt, dq):
     Returns:
         pos1 : np.array([qx, qy])
     """
-    pos1 = panda.pos + panda.vit*dt +(0.5)*(dt**2)*spaceDerivativeEnergy(panda, poulpe, dq)
+    pos1 = panda.pos + panda.vit*dt +(0.5)*(dt**2)*space_derivative_energy(panda, poulpe, dq)
     return pos1
 
-def verletStepN(panda, pouple, dt, dq):
+def verlet_step_n(panda, poulpe, dt, dq):
     """ Step n>1 of Verlet integration
     Calculates next position from current position
 
@@ -94,5 +94,5 @@ def verletStepN(panda, pouple, dt, dq):
     Returns:
         posn : np.array([qx, qy])
     """
-    posn = 2*panda.pos - panda.lastPos + (dt**2)*spaceDerivativeEnergy(panda, poulpe, dq)
+    posn = 2*panda.pos - panda.lastPos + (dt**2)*space_derivative_energy(panda, poulpe, dq)
     return posn
