@@ -19,17 +19,17 @@ class Panda:
         self.storePos = []
         self.storeVit = []
 
-    def update_pos(currentPos, newPos):
+    def update_pos(newPos):
         """
         Store current position
         Set current position as last position
         Set new posiiton as current position
         """
-        self.storePos.append(currentPos)
-        self.lastPos = currentPos
+        self.storePos.append(self.pos)
+        self.lastPos = self.pos
         self.pos = newPos
 
-    def update_vit(currentVit, newVit):
-        self.storeVit.append(currentVit)
-        self.lastVit = currentVit
+    def update_vit(newVit):
+        self.storeVit.append(self.pos)
+        self.lastVit = self.pos
         self.vit = newVit

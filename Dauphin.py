@@ -31,14 +31,14 @@ class Dauphin:
         # Calculate next position (and velocity - TO DO)
         pos1 = verletStep1(self.panda, self.poulpe, self.dt, self.dq)
         # Update position (and velocity - TO DO)
-        self.panda.update_pos(self.panda.pos0, pos1)
+        self.panda.update_pos(pos1)
         # n>1 steps ------------------------------------------------
         if N > 1:
             for n in range(N-1):
                 # Calculate next position (and velocity - TO DO)
                 posn = verletStepN(self.panda, self.pouple, self.dt, self.dq)
                 # Update position (and velocity - TO DO)
-                self.panda.update_pos(self.panda.pos, posn)
+                self.panda.update_pos(posn)
         return 1
 
 
