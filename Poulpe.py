@@ -71,7 +71,7 @@ class Poulpe:
     """
     Desc : Update values dans le graph GUI VISION grace a la fonction compute_field
     """
-    def update_Mesh(self):
+    def update_mesh(self):
 
         x = self.vision.axes.xlim()
         y = self.vision.axes.ylim()
