@@ -75,20 +75,24 @@ class Poulpe:
 
         x = self.vision.axes.get_xlim()
         y = self.vision.axes.get_ylim()
-        X = np.linspace( x[0], x[1], 10000 )
-        Y = np.linspace( y[0], y[1], 10000 )
+        X = np.linspace( x[0], x[1], 100 )
+        Y = np.linspace( y[0], y[1], 100 )
 
-        mesh = tri.Triangulation( X, Y )
+        xx, yy = np.meshgrid(X,Y)
+
+        #mesh = tri.Triangulation( X, Y )
+        
+        #print(mesh)
 
         i=0
-        field = np.zeros(X.len() * Y.len())
+        field = np.zeros(X.size * Y.size)
         for x in X:
             for y in Y:
-                field[i] = self.compute_field(np.array([x,y]))
+                field[i] = self.compute_field(np.array([x,y]))[2]
                 i += 1
 
-        cont = self.vision.axes.tricontourf(mesh, field)
-        
+        #cont = self.vision.axes.tricontourf(mesh, field)
+        self.vision.axes.pcolormesh(xx, yy,field,cmap='RdBu',vmin=-field.max(),vmax=field.max())
         self.vision.update_graph()
 
 
