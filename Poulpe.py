@@ -73,8 +73,8 @@ class Poulpe:
     """
     def update_mesh(self):
 
-        x = self.vision.axes.xlim()
-        y = self.vision.axes.ylim()
+        x = self.vision.axes.get_xlim()
+        y = self.vision.axes.get_ylim()
         X = np.linspace( x[0], x[1], 10000 )
         Y = np.linspace( y[0], y[1], 10000 )
 
