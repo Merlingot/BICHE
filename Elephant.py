@@ -1,9 +1,5 @@
-import scipy as sci
+import scipy.constants as sciconst
 
-class Elephant:
-
-    self.PI = sci.Pi
-    MU0 = sci.mu_0
-
-
+PI = sciconst.pi
+MU0 = sciconst.mu_0
 
