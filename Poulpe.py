@@ -52,5 +52,5 @@ class Poulpe:
 
         return Btot
 
-
+    
 
