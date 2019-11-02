@@ -1,5 +1,6 @@
 import numpy as np
-
+import matplotlib.pyplot as plt
+import matplotlib.tri as tri
 from Calmar import Calmar
 
 ## Classe utiliser pour obtenir le champs magnetique en tout point grace a une liste de aimants (Calmar)
@@ -9,9 +10,10 @@ from Calmar import Calmar
 class Poulpe:
 
 
-    def __init__(self):
+    def __init__(self, vision):
 
         self.listeCalmar = []
+        self.vision = vision
 
     """
     Desc : Ajoute un aimant a la liste d'aimant
@@ -52,5 +54,22 @@ class Poulpe:
 
         return Btot
 
-    
+    def field_mesh(self, vision):
+
+        x = vision.axes.xlim()
+        y = vision.axes.ylim()
+        X = np.linspace( x[0], x[1], 10000 )
+        Y = np.linspace( y[0], y[1], 10000 )
+
+        mesh = tri.Triangulation( X, Y )
+
+        i=0
+        field = np.zeros(X.len() * Y.len())
+        for x in X:
+            for y in Y:
+                field[i] = self.compute_field(np.array([x,y]))
+                i++
+
+        cont = vision.axes.tricontourf(mesh, field)
+        
 
