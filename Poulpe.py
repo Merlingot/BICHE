@@ -45,7 +45,7 @@ class Poulpe:
     Parametres:
         calmars : nouvelle liste de calmars
     """
-    def set_Calmars(self, calmars):
+    def set_calmars(self, calmars):
 
         self.listeCalmar = calmars
 
