@@ -12,24 +12,24 @@ class Panda:
         self.pos0 = pos0
         self.vit0 = vit0
         self.m = m
-        self.pos = None
-        self.vit = None
+        self.pos = pos0
+        self.vit = vit0
         self.lastPos = None
         self.lastVit = None
         self.storePos = []
         self.storeVit = []
 
-    def update_pos(newPos):
+    def update_pos(self, newPos):
         """
         Store current position
         Set current position as last position
         Set new posiiton as current position
         """
         self.storePos.append(self.pos)
-        self.lastPos = self.pos
+        self.lastPos = self.storePos[-1]
         self.pos = newPos
 
-    def update_vit(newVit):
+    def update_vit(self, newVit):
         self.storeVit.append(self.pos)
-        self.lastVit = self.pos
+        self.lastVit = self.storeVit[-1]
         self.vit = newVit
