@@ -26,9 +26,9 @@ class Calmar:
     """
     def compute_contribution(self, rpos ):
 
-        if distance.euclidean(pos,rpos) < self.eps:
+        if distance.euclidean(self.pos,rpos) < self.eps:
             Bz = 0;
         else:
-            Bz =  ( Elephant.MU0 / (4*Elephant.PI) ) * ( -self.m ) / ( np.power(distance.euclidean(pos, rpos),3) )
-
+            Bz =  ( Elephant.MU0 / (4*Elephant.PI) ) * ( -self.m ) / ( np.power(distance.euclidean(self.pos, rpos),3) )
+            
         return np.array([0., 0., Bz])

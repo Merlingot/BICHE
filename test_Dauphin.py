@@ -2,13 +2,15 @@ from Calmar2 import Calmar
 import Elephant
 from Dauphin import Dauphin
 from Panda import Panda
-from Poulpe import Poulpe
+from Poulpe2 import Poulpe
 import matplotlib.pyplot as plt
 
 import numpy as np
 
 
 poulpe = Poulpe()
+poulpe.add_calmar(1,np.array([0.1,0.1]))
+poulpe.add_calmar(-1,np.array([0.5,0.5]))
 
 pos0 = np.array([0,0])
 vit0 = np.array([1,1])
