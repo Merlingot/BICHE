@@ -12,10 +12,11 @@ class Lion(tk.Tk):
         # Grid scaling
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
-        Hyene(self).grid(row=1, column=1)
+        Hyene(self).grid(row=1, column=2)
         Lionceau(self).grid(row=1, column=0)
-        LionneQuiJuge(self).grid(row=0, column=1)
-        LionneQuiRegarde(self).grid(row=0, column=0)
+        Fourmi(self).grid(row=1, column=1)
+        LionneQuiJuge(self).grid(row=0, column=2)
+        LionneQuiRegarde(self).grid(row=0, column=0, columnspan=2)
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
@@ -41,9 +42,8 @@ class LionneQuiJuge(tk.Frame):
 class LionneQuiRegarde(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
-        self.course = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
-        self.bind('<Configure>', self.course.change_dimensions)
-
+        self.vision = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
+        self.bind('<Configure>', self.vision.change_dimensions)
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
             for j in range(2):
@@ -52,7 +52,7 @@ class LionneQuiRegarde(tk.Frame):
 class Lionceau(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent, text='Lionceau')
-        vitesseX = tk.StringVar()
+        vitesseX = tk.DoubleVar()
         vitesseY = tk.DoubleVar()
         positionX = tk.DoubleVar()
         positionY = tk.DoubleVar()
@@ -78,11 +78,40 @@ class Lionceau(ttk.LabelFrame):
                         width=6)
 
         posXE.grid(row=0, column=1, sticky='nsew')
-        posYE.grid(row=0, column=1, sticky='nsew')
+        posYE.grid(row=0, column=2, sticky='nsew')
         vitXE.grid(row=1, column=1, sticky='nsew')
-        vitYE.grid(row=1, column=1, sticky='nsew')
+        vitYE.grid(row=1, column=2, sticky='nsew')
         forceE.grid(row=2, column=1, sticky='nsew',
                    columnspan=2)
+
+        for i in range(2):
+            self.grid_columnconfigure(i, weight=1)
+            for j in range(2):
+                self.grid_rowconfigure(j, weight=1)
+
+class Fourmi(ttk.LabelFrame):
+    def __init__(self, parent):
+        ttk.LabelFrame.__init__(self, parent, text='Fourmi')
+        self.dq = tk.DoubleVar()
+        self.nt = tk.IntVar()
+        self.dt = tk.DoubleVar()
+
+        tk.Label(self, text='\u03B4'+'q :').grid(row=0, column=0,
+                                                     sticky='nw')
+        tk.Label(self, text='\u03B4'+'t :').grid(row=1, column=0,
+                                                   sticky='nw')
+        tk.Label(self, text='nt:').grid(row=2, column=0,
+                                                   sticky='nw')
+        dqE = tk.Entry(self, textvariable=self.dq,
+                        width=6)
+        dtE = tk.Entry(self, textvariable=self.dt,
+                        width=6)
+        dntE = tk.Entry(self, textvariable=self.nt,
+                        width=6)
+
+        dqE.grid(row=0, column=1, sticky='nsew')
+        dtE.grid(row=1, column=1, sticky='nsew')
+        dntE.grid(row=2, column=1, sticky='nsew')
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
@@ -147,17 +176,30 @@ class Hyene(ttk.LabelFrame):
 class BebeHyene(tk.Frame):
     def __init__(self, Hyene):
         tk.Frame.__init__(self, Hyene)
-        largeurHyene = tk.DoubleVar()
-        largeurHyeneE = tk.Entry(self)
-        hauteurHyene = tk.DoubleVar()
-        hauteurHyeneE = tk.Entry(self)
+        positionX = tk.DoubleVar()
+        positionY = tk.DoubleVar()
+        self.force = tk.DoubleVar()
+        self.pos = [positionX, positionY]
 
-        largeurHyeneE.grid(column=0, row=0)
-        hauteurHyeneE.grid(column=1, row=0)
+        tk.Label(self, text='Position [X,Y] :').grid(row=0, column=0,
+                                                     sticky='nw')
+        tk.Label(self, text='Force :').grid(row=2, column=0,
+                                                   sticky='nw')
+        posXE = tk.Entry(self, textvariable=positionX,
+                        width=6)
+        posYE = tk.Entry(self, textvariable=positionY,
+                        width=6)
+        forceE = tk.Entry(self, textvariable=self.force,
+                        width=6)
+
+        posXE.grid(row=0, column=1, sticky='nsew')
+        posYE.grid(row=0, column=2, sticky='nsew')
+        forceE.grid(row=2, column=1, sticky='nsew',
+                   columnspan=2)
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
-        for j in range(2):
+            for j in range(2):
                 self.grid_rowconfigure(j, weight=1)
 
 if __name__ == '__main__':
