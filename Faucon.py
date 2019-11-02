@@ -1,6 +1,6 @@
-import Poulpe
-import Panda
-import Dauphin
+from Poulpe import *
+from Panda import *
+from Dauphin import *
 from OurangOutan import *
 
 ## Classe agissant comme Overhead de l'algorithme de resolution
