@@ -9,7 +9,12 @@ from Calmar import Calmar
 
 class Poulpe:
 
+    """
+    Desc: Constructeur
 
+    Parametres:
+        vision : object graphique du GUI pour la fonction update_Mesh
+    """
     def __init__(self, vision=None):
 
         self.listeCalmar = []
@@ -36,7 +41,12 @@ class Poulpe:
 
         for calmar in calmars:
             self.listeCalmar.append(calmar)
-            
+    """
+    Desc : remplace la liste de Calmars presente par une nouvelle liste de Calmars
+
+    Parametres:
+        calmars : nouvelle liste de calmars
+    """
     def set_Calmars(self, calmars):
 
         self.listeCalmar = calmars
@@ -61,6 +71,9 @@ class Poulpe:
 
         return Btot
 
+    """
+    Desc : Update values dans le graph GUI VISION grace a la fonction compute_field
+    """
     def update_Mesh(self):
 
         x = self.vision.axes.xlim()
