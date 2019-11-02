@@ -36,6 +36,11 @@ class Poulpe:
 
         for calmar in calmars:
             self.listeCalmar.append(calmar)
+            
+    def set_Calmars(self, calmars):
+
+        self.listeCalmar = calmars
+
 
     """
     Desc : Calcule le champs totale de tous les aimant a un point pos
