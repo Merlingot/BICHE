@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from Cameleon import *
 
 class Lion(tk.Tk):
 
@@ -11,13 +12,42 @@ class Lion(tk.Tk):
         # Grid scaling
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
-        Hyene(self).grid(row=0, column=0)
-        Lionceau(self).grid(row=0, column=0)
+        Hyene(self).grid(row=1, column=1)
+        Lionceau(self).grid(row=1, column=0)
+        LionneQuiJuge(self).grid(row=0, column=1)
+        LionneQuiRegarde(self).grid(row=0, column=0)
+
+        for i in range(2):
+            self.grid_columnconfigure(i, weight=1)
+            for j in range(2):
+                self.grid_rowconfigure(j, weight=1)
 
     def frame_switch(self, dict_, new):
         for frame in self.Frame:
             frame.grid_forget()
         new.grid(column=1, row=1, sticky='nsew')
+
+class LionneQuiJuge(tk.Frame):
+    def __init__(self, parent):
+        tk.Frame.__init__(self, parent)
+        self.course = Cameleon(self, axis_name=['', ''], figsize=[2, 2])
+        self.bind('<Configure>', self.course.change_dimensions)
+
+        for i in range(2):
+            self.grid_columnconfigure(i, weight=1)
+            for j in range(2):
+                self.grid_rowconfigure(j, weight=1)
+
+class LionneQuiRegarde(tk.Frame):
+    def __init__(self, parent):
+        tk.Frame.__init__(self, parent)
+        self.course = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
+        self.bind('<Configure>', self.course.change_dimensions)
+
+        for i in range(2):
+            self.grid_columnconfigure(i, weight=1)
+            for j in range(2):
+                self.grid_rowconfigure(j, weight=1)
 
 class Lionceau(ttk.LabelFrame):
     def __init__(self, parent):
@@ -34,6 +64,30 @@ class Lionceau(ttk.LabelFrame):
                                                      sticky='nw')
         tk.Label(self, text='Vitesse [X,Y] :').grid(row=1, column=0,
                                                    sticky='nw')
+        tk.Label(self, text='Force :').grid(row=2, column=0,
+                                                   sticky='nw')
+        posXE = tk.Entry(self, textvariable=positionX,
+                        width=6)
+        posYE = tk.Entry(self, textvariable=positionY,
+                        width=6)
+        vitXE = tk.Entry(self, textvariable=vitesseX,
+                        width=6)
+        vitYE = tk.Entry(self, textvariable=vitesseY,
+                        width=6)
+        forceE = tk.Entry(self, textvariable=self.force,
+                        width=6)
+
+        posXE.grid(row=0, column=1, sticky='nsew')
+        posYE.grid(row=0, column=1, sticky='nsew')
+        vitXE.grid(row=1, column=1, sticky='nsew')
+        vitYE.grid(row=1, column=1, sticky='nsew')
+        forceE.grid(row=2, column=1, sticky='nsew',
+                   columnspan=2)
+
+        for i in range(2):
+            self.grid_columnconfigure(i, weight=1)
+            for j in range(2):
+                self.grid_rowconfigure(j, weight=1)
 
 class Hyene(ttk.LabelFrame):
     def __init__(self, parent):
@@ -100,6 +154,11 @@ class BebeHyene(tk.Frame):
 
         largeurHyeneE.grid(column=0, row=0)
         hauteurHyeneE.grid(column=1, row=0)
+
+        for i in range(2):
+            self.grid_columnconfigure(i, weight=1)
+        for j in range(2):
+                self.grid_rowconfigure(j, weight=1)
 
 if __name__ == '__main__':
     app = Lion()
