@@ -18,16 +18,16 @@ class Faucon:
 		self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force)
 		self.dauphin = Dauphin(panda, poulpe, fourmi.dt,fourmi.dq)
 
-	def runSimulation(self, nt):
+	def run_simulation(self, nt):
 		dauphin.solve(nt)
 
 #Transforme un dictionnaire de Hyene en liste de Calmar et le set comme liste de calmars de poulpe
-	def dictHyeneToPoulpe(self,dictHyene):
+	def dict_hyene_to_poulpe(self,dictHyene):
 		calmarList = []
 		for key in dictHyene:
 			calmarList.append(Calmar(dictHyene[key].force,dictHyene[key].pos))
 			self.poulpe.setCalmars(calmarList)
 
 	#Mise a jour du graphique
-	def updateGraphB(self):
+	def update_graphB(self):
 		self.poulpe.updateMesh()
