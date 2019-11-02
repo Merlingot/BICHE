@@ -34,9 +34,5 @@ class Calmar:
         return np.array([0., 0., Bz]) 
 
 
-    def set_Calmars()
-
-
-
 
 
