@@ -1,6 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.tri as tri
+
 from Calmar import Calmar
 
 ## Classe utiliser pour obtenir le champs magnetique en tout point grace a une liste de aimants (Calmar)
@@ -11,12 +10,10 @@ class Poulpe:
 
     """
     Desc: Constructeur
-
     Parametres:
         vision : object graphique du GUI pour la fonction update_Mesh
     """
     def __init__(self, vision=None):
-
         self.listeCalmar = []
         self.vision = vision
 
@@ -32,7 +29,7 @@ class Poulpe:
         self.listeCalmar.append( Calmar(pos, m) )
 
     """
-    Desc : Ajoute plusieurs calmar d'un seul cour a la liste de Calmar
+    Desc : Ajoute plusieurs calmar d'un seul cout a la liste de Calmar
 
     Parametres:
         calmars : liste de Calmars a ajouter a SSQQUUUIIIDDD
@@ -41,6 +38,7 @@ class Poulpe:
 
         for calmar in calmars:
             self.listeCalmar.append(calmar)
+
     """
     Desc : remplace la liste de Calmars presente par une nouvelle liste de Calmars
 
@@ -53,7 +51,6 @@ class Poulpe:
 
         self.update_mesh()
 
-
     """
     Desc : Calcule le champs totale de tous les aimant a un point pos
 
@@ -63,10 +60,10 @@ class Poulpe:
     """
     def compute_field(self, pos ):
 
-        Btot = np.array([0.,0.,0.]) 
+        Btot = np.array([0.,0.,0.])
 
         for calmar in self.listeCalmar:
-            
+
             Btot += calmar.compute_contribution(pos)
 
         return Btot
@@ -93,4 +90,5 @@ class Poulpe:
         cont = self.vision.axes.tricontourf(mesh, field)
         
         self.vision.update_graph()
+
 
