@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.tri as tri
-from Calmar import Calmar
+from Calmar2 import Calmar
 
 ## Classe utiliser pour obtenir le champs magnetique en tout point grace a une liste de aimants (Calmar)
 
@@ -64,8 +64,9 @@ class Poulpe:
 
         for calmar in self.listeCalmar:
 
-            Btot += calmar.compute_contribution(pos)
+            Btot = Btot + calmar.compute_contribution(pos)
 
+        
         return Btot
 
     """
@@ -75,24 +76,18 @@ class Poulpe:
 
         x = self.vision.axes.get_xlim()
         y = self.vision.axes.get_ylim()
-        X = np.linspace( x[0], x[1], 100 )
-        Y = np.linspace( y[0], y[1], 100 )
+        X = np.linspace( x[0], x[1], 10000 )
+        Y = np.linspace( y[0], y[1], 10000 )
 
-        xx, yy = np.meshgrid(X,Y)
-
-        #mesh = tri.Triangulation( X, Y )
-        
-        #print(mesh)
+        mesh = tri.Triangulation( X, Y )
 
         i=0
-        field = np.zeros(X.size * Y.size)
+        field = np.zeros(X.len() * Y.len())
         for x in X:
             for y in Y:
-                field[i] = self.compute_field(np.array([x,y]))[2]
+                field[i] = self.compute_field(np.array([x,y]))
                 i += 1
 
-        #cont = self.vision.axes.tricontourf(mesh, field)
-        self.vision.axes.pcolormesh(xx, yy,field,cmap='RdBu',vmin=-field.max(),vmax=field.max())
+        cont = self.vision.axes.tricontourf(mesh, field)
+
         self.vision.update_graph()
-
-
