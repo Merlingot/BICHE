@@ -1,5 +1,5 @@
 import numpy as np
-
+import matplotlib.tri as tri
 from Calmar import Calmar
 
 ## Classe utiliser pour obtenir le champs magnetique en tout point grace a une liste de aimants (Calmar)
