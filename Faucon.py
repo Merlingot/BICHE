@@ -14,7 +14,7 @@ class Faucon:
 	def __init__(self, lionceau,dictHyene,course, vision,fourmi):
 		self.nt = fourmi.nt
 		self.poulpe = Poulpe(vision)
-		self.dictHyeneToPoulpe(dictHyene)
+		self.dict_hyene_to_poulpe(dictHyene)
 		self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force)
 		self.dauphin = Dauphin(panda, poulpe, fourmi.dt,fourmi.dq)
 
@@ -26,8 +26,8 @@ class Faucon:
 		calmarList = []
 		for key in dictHyene:
 			calmarList.append(Calmar(dictHyene[key].force,dictHyene[key].pos))
-			self.poulpe.setCalmars(calmarList)
+			self.poulpe.set_calmars(calmarList)
 
 	#Mise a jour du graphique
 	def update_graphB(self):
-		self.poulpe.updateMesh()
+		self.poulpe.update_mesh()
