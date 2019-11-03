@@ -85,8 +85,8 @@ for indexdq in range(len(dqs)): # index sur les dq
     dq = dqs[indexdq]
     dq2 = dqs[indexdq]/2
 
-    dauphin = Dauphin(panda, poulpe, dt, dq)
-    dauphin2 = Dauphin(panda2, poulpe, dt, dq2)
+    dauphin = Dauphin(panda, poulpe, dt, dq,xlim,ylim)
+    dauphin2 = Dauphin(panda2, poulpe, dt, dq2,xlim,ylim)
 
     dauphin.solve(Nt)
     dauphin2.solve(Nt)
