@@ -20,8 +20,6 @@ class Poulpe:
     def __init__(self, vision=None):
         self.listeCalmar = []
         self.vision = vision
-        self.vision.axes = self.vision.Fig.gca()
-        self.vision.update_graph()
         self.initiate_mesh()
 
     """
@@ -80,8 +78,8 @@ class Poulpe:
 
         x = self.vision.axes.get_xlim()
         y = self.vision.axes.get_ylim()
-        self.X = np.linspace( x[0], x[1], 150 )
-        self.Y = np.linspace( y[0], y[1], 150 )
+        self.X = np.linspace( x[0], x[1], 100 )
+        self.Y = np.linspace( y[0], y[1], 100 )
 
         self.xx, self.yy = np.meshgrid(self.X,self.Y)
 
@@ -99,14 +97,8 @@ class Poulpe:
             i+=1
 
 
-        print('init')
         #cont = self.vision.axes.tricontourf(mesh, field)
-
-        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu',
-                                    norm = colors.SymLogNorm(linthresh=1e-6,
-                                                             linscale = 10, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
-
-
+        #self.vision.img.set_data(field)
         #self.img = self.vision.axes.imshow(field, cmap='RdBu',
         #                                   aspect='auto',
         #                                   interpolation='none',
@@ -117,17 +109,18 @@ class Poulpe:
         #                                  extent=(self.X[0], self.X[-1],
         #                                          self.Y[0], self.Y[-1]),
         #                                   )
-#        self.Quad = self.vision.axes.pcolormesh(self.xx,
-#                                                self.yy,field,cmap='RdBu',
-#                                                shading = 'gouraud',
-#                                                norm = colors.SymLogNorm(linthresh=1e-6,
-#                                                                         linscale = 5,
-#                                                                         vmin=-np.abs(field).max(),
-#                                                                         vmax=np.abs(field).max()),
-#                                               animated=True,
-#                                               figure=self.vision.Fig
-#                                               )
-#
+        self.vision.axes.pcolormesh(self.xx,
+                                    self.yy,field,cmap='RdBu',
+                                    shading = 'gouraud',
+                                    norm = colors.SymLogNorm(linthresh=1e-6,
+                                                             linscale = 5,
+                                                             vmin=-np.abs(field).max(),
+                                                             vmax=np.abs(field).max()),
+                                   animated=True,
+                                   figure=self.vision.Fig
+                                   )
+
+        #self.vision.update_graph()
         self.vision.update_graph()
         #self.Quad.draw()
 
@@ -145,14 +138,12 @@ class Poulpe:
                 field[i][j] = self.compute_field(np.array([x,y]))[2]
                 j += 1
             i+=1
-        #self.img.set_data(field)
-        print('update')
+        #self.vision.img.set_data(field)
         #self.Quad.set_array(field.ravel())
         #cont = self.vision.axes.tricontourf(mesh, field)
         self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu',
                                     shading = 'gouraud',
                                     norm = colors.SymLogNorm(linthresh=1e-6,
-                                                            #linscale = 10, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
                                                              linscale = 5,
                                                              vmin=-np.abs(field).max(),
                                                              vmax=np.abs(field).max()),

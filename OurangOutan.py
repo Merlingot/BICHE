@@ -20,24 +20,32 @@ class Lion(tk.Tk):
         image = tk.PhotoImage(master=self, file=directory / 'Owww.gif')
         tk.Tk.wm_iconphoto(self, '-default', image)
         hyene = Hyene(self)
-        hyene.grid(row=2, column=2)
+        hyene.grid(row=2, column=3, rowspan=2)
         lionceau = Lionceau(self)
-        lionceau.grid(row=2, column=0)
+        lionceau.grid(row=2, column=0, rowspan=2)
         fourmi = Fourmi(self)
-        fourmi.grid(row=2, column=1)
+        fourmi.grid(row=2, column=1, rowspan=2)
         lionneQuiJuge = LionneQuiJuge(self)
-        lionneQuiJuge.grid(row=0, column=2)
+        lionneQuiJuge.grid(row=0, column=3)
         lionneQuiSurveille = LionneQuiSurveille(self)
-        lionneQuiSurveille.grid(row=1, column=2)
+        lionneQuiSurveille.grid(row=1, column=3)
         lionneQuiRegarde = LionneQuiRegarde(self)
-        lionneQuiRegarde.grid(row=0, column=0, columnspan=2,
-                             rowspan=2)
+        lionneQuiRegarde.grid(row=0, column=0, columnspan=3, rowspan=2)
         faucon= Faucon(lionceau, hyene.dictHyene,
                        lionneQuiJuge.course,
                        lionneQuiRegarde.vision,
                        fourmi)
         hyene.faucon = faucon
         hyene.une_hyene_est_nee()
+        cameleon = Cameleon2(x=lionceau.pos[0], y=lionceau.pos[1],
+                             axes=lionneQuiRegarde.vision.axes,
+                            velx=lionceau.vit[0], vely=lionceau.vit[1])
+        lionneQuiRegarde.vision.update_graph()
+        lionceau.bind_simba(cameleon, lionneQuiRegarde.vision)
+
+        GETTHISSHITDONE = tk.Button(self, text='RUN THIS SHIT',
+                                    command=lambda:faucon.run_simulation())
+        GETTHISSHITDONE.grid(row=2, column=2, sticky='nsew', rowspan=2)
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
@@ -84,12 +92,18 @@ class LionneQuiSurveille(tk.Frame):
 class Lionceau(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent, text='Lionceau')
-        masse = tk.DoubleVar()
+        self.masse = tk.DoubleVar()
+        self.masse.set(10e-3)
         vitesseX = tk.DoubleVar()
+        vitesseX.set(1e-1)
         vitesseY = tk.DoubleVar()
+        vitesseY.set(1e-1)
         positionX = tk.DoubleVar()
+        positionX.set(0.25)
         positionY = tk.DoubleVar()
+        positionY.set(0.25)
         self.force = tk.DoubleVar()
+        self.force.set(0.1)
         self.pos = [positionX, positionY]
         self.vit = [vitesseX, vitesseY]
 
@@ -101,24 +115,24 @@ class Lionceau(ttk.LabelFrame):
                                                    sticky='nw')
         tk.Label(self, text='Force :').grid(row=3, column=0,
                                                    sticky='nw')
-        masseE = tk.Entry(self, textvariable=masse,
+        masseE = tk.Entry(self, textvariable=self.masse,
                         width=6)
-        posXE = tk.Entry(self, textvariable=positionX,
+        self.posXE = tk.Entry(self, textvariable=positionX,
                         width=6)
-        posYE = tk.Entry(self, textvariable=positionY,
+        self.posYE = tk.Entry(self, textvariable=positionY,
                         width=6)
-        vitXE = tk.Entry(self, textvariable=vitesseX,
+        self.vitXE = tk.Entry(self, textvariable=vitesseX,
                         width=6)
-        vitYE = tk.Entry(self, textvariable=vitesseY,
+        self.vitYE = tk.Entry(self, textvariable=vitesseY,
                         width=6)
         forceE = tk.Entry(self, textvariable=self.force,
                         width=6)
 
         masseE.grid(row=0, column=1, sticky='nsew')
-        posXE.grid(row=1, column=1, sticky='nsew')
-        posYE.grid(row=1, column=2, sticky='nsew')
-        vitXE.grid(row=2, column=1, sticky='nsew')
-        vitYE.grid(row=2, column=2, sticky='nsew')
+        self.posXE.grid(row=1, column=1, sticky='nsew')
+        self.posYE.grid(row=1, column=2, sticky='nsew')
+        self.vitXE.grid(row=2, column=1, sticky='nsew')
+        self.vitYE.grid(row=2, column=2, sticky='nsew')
         forceE.grid(row=3, column=1, sticky='nsew',
                    columnspan=2)
 
@@ -126,6 +140,14 @@ class Lionceau(ttk.LabelFrame):
             self.grid_columnconfigure(i, weight=1)
             for j in range(3):
                 self.grid_rowconfigure(j, weight=1)
+
+    def bind_simba(self, point, graph):
+        self.posXE.bind('<Return>', lambda e: point.update_position(graph))
+        self.posYE.bind('<Return>', lambda e: point.update_position(graph))
+        #self.vitXE.bind('<Return>', lambda e: point.update_position(graph))
+        #self.vitYE.bind('<Return>', lambda e: point.update_position(graph))
+
+
 
 class Fourmi(ttk.LabelFrame):
     def __init__(self, parent):
@@ -191,7 +213,7 @@ class Hyene(ttk.LabelFrame):
         b.grid(column=0, row=3, columnspan=3)
 
     def randomizeHyene(self):
-       
+
         pophyene = []
         for i in self.dictHyene:
             pophyene.append(i)
@@ -199,16 +221,16 @@ class Hyene(ttk.LabelFrame):
             self.detruire_hyene(self.listHyene, i)
 
         self.number = 0
-        for i in range(0,random.randint(5,10)):
+        for i in range(0,random.randint(2,6)):
             self.ajouter_hyene(self.listHyene,i)
-            
+
         for hyene in self.dictHyene:
             self.dictHyene[hyene].pos[0].set( random.uniform(-1,1) )
             self.dictHyene[hyene].pos[1].set( random.uniform(-1,1) )
             self.dictHyene[hyene].force.set( random.uniform(-10,10) )
 
         if self.faucon:
-            self.faucon.update_graphB() 
+            self.faucon.update_graphB()
 
     def ajouter_hyene(self, Hyenes=None, numero=None):
         Hyenes['value'] = Hyenes['value'] + ('Hyene:'+

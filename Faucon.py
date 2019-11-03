@@ -19,8 +19,8 @@ class Faucon:
 		self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force,lionceau.masse)
 		self.dauphin = Dauphin(self.panda, self.poulpe, fourmi.dt,fourmi.dq, vision.axes.get_xlim(), vision.axes.get_ylim())
 
-	def run_simulation(self, nt):
-		self.dauphin.solve(nt)
+	def run_simulation(self):
+		self.dauphin.solve(self.nt.get())
 
 
 #Transforme un dictionnaire de Hyene en liste de Calmar et le set comme liste de calmars de poulpe
