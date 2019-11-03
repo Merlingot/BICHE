@@ -33,3 +33,11 @@ class Panda:
         self.storeVit.append(self.pos)
         self.lastVit = self.storeVit[-1]
         self.vit = newVit
+
+    def clear_panda(self):
+        self.pos = self.pos0
+        self.vit = self.vit0
+        self.lastPos = None
+        self.lastVit = None
+        self.storePos.clear()
+        self.storeVit.clear()
