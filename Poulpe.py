@@ -76,8 +76,8 @@ class Poulpe:
 
         x = self.vision.axes.get_xlim()
         y = self.vision.axes.get_ylim()
-        self.X = np.linspace( x[0], x[1], 100 )
-        self.Y = np.linspace( y[0], y[1], 100 )
+        self.X = np.linspace( x[0], x[1], 150 )
+        self.Y = np.linspace( y[0], y[1], 150 )
 
         self.xx, self.yy = np.meshgrid(self.X,self.Y)
 
@@ -99,7 +99,7 @@ class Poulpe:
         #cont = self.vision.axes.tricontourf(mesh, field)
         self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu',
                                     norm = colors.SymLogNorm(linthresh=1e-6,
-                                                             linscale = 5, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
+                                                             linscale = 10, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
 
 
         self.vision.update_graph()
@@ -122,6 +122,6 @@ class Poulpe:
         #cont = self.vision.axes.tricontourf(mesh, field)
         self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu',
                                     norm = colors.SymLogNorm(linthresh=1e-6,
-                                                             linscale = 5, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
+                                                            linscale = 10, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
 
         self.vision.update_graph()

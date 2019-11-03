@@ -3,6 +3,7 @@ from tkinter import ttk
 from Cameleon import *
 from Faucon import *
 from pathlib import Path
+import random
 
 class Lion(tk.Tk):
 
@@ -83,6 +84,7 @@ class LionneQuiSurveille(tk.Frame):
 class Lionceau(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent, text='Lionceau')
+        masse = tk.DoubleVar()
         vitesseX = tk.DoubleVar()
         vitesseY = tk.DoubleVar()
         positionX = tk.DoubleVar()
@@ -91,12 +93,16 @@ class Lionceau(ttk.LabelFrame):
         self.pos = [positionX, positionY]
         self.vit = [vitesseX, vitesseY]
 
-        tk.Label(self, text='Position [X,Y] :').grid(row=0, column=0,
+        tk.Label(self, text='Masse (kg) :').grid(row=0,column=0,
+                                                    sticky='nw')
+        tk.Label(self, text='Position [X,Y] :').grid(row=1, column=0,
                                                      sticky='nw')
-        tk.Label(self, text='Vitesse [X,Y] :').grid(row=1, column=0,
+        tk.Label(self, text='Vitesse [X,Y] :').grid(row=2, column=0,
                                                    sticky='nw')
-        tk.Label(self, text='Force :').grid(row=2, column=0,
+        tk.Label(self, text='Force :').grid(row=3, column=0,
                                                    sticky='nw')
+        masseE = tk.Entry(self, textvariable=masse,
+                        width=6)
         posXE = tk.Entry(self, textvariable=positionX,
                         width=6)
         posYE = tk.Entry(self, textvariable=positionY,
@@ -108,16 +114,17 @@ class Lionceau(ttk.LabelFrame):
         forceE = tk.Entry(self, textvariable=self.force,
                         width=6)
 
-        posXE.grid(row=0, column=1, sticky='nsew')
-        posYE.grid(row=0, column=2, sticky='nsew')
-        vitXE.grid(row=1, column=1, sticky='nsew')
-        vitYE.grid(row=1, column=2, sticky='nsew')
-        forceE.grid(row=2, column=1, sticky='nsew',
+        masseE.grid(row=0, column=1, sticky='nsew')
+        posXE.grid(row=1, column=1, sticky='nsew')
+        posYE.grid(row=1, column=2, sticky='nsew')
+        vitXE.grid(row=2, column=1, sticky='nsew')
+        vitYE.grid(row=2, column=2, sticky='nsew')
+        forceE.grid(row=3, column=1, sticky='nsew',
                    columnspan=2)
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
-            for j in range(2):
+            for j in range(3):
                 self.grid_rowconfigure(j, weight=1)
 
 class Fourmi(ttk.LabelFrame):
@@ -180,6 +187,29 @@ class Hyene(ttk.LabelFrame):
 
         self.config(labelwidget=self.listHyene, width=100, height=100)
 
+        b = tk.Button(self, text='Randomize magnets', command = lambda: self.randomizeHyene())
+        b.grid(column=0, row=3, columnspan=3)
+
+    def randomizeHyene(self):
+       
+        pophyene = []
+        for i in self.dictHyene:
+            pophyene.append(i)
+        for i in pophyene:
+            self.detruire_hyene(self.listHyene, i)
+
+        self.number = 0
+        for i in range(0,random.randint(5,10)):
+            self.ajouter_hyene(self.listHyene,i)
+            
+        for hyene in self.dictHyene:
+            self.dictHyene[hyene].pos[0].set( random.uniform(-1,1) )
+            self.dictHyene[hyene].pos[1].set( random.uniform(-1,1) )
+            self.dictHyene[hyene].force.set( random.uniform(-10,10) )
+
+        if self.faucon:
+            self.faucon.update_graphB() 
+
     def ajouter_hyene(self, Hyenes=None, numero=None):
         Hyenes['value'] = Hyenes['value'] + ('Hyene:'+
                                                  '{}'.format(numero), )
@@ -189,10 +219,12 @@ class Hyene(ttk.LabelFrame):
             self.faucon.dict_hyene_to_poulpe()
 
     def detruire_hyene(self, Hyenes, HyenesMourante):
+        print(Hyenes)
         troupeHyene = list(Hyenes['value'])
         troupeHyene.remove(HyenesMourante)
         Hyenes['value'] = tuple(troupeHyene)
-        Hyenes.current(0)
+        if Hyenes['value']:
+            Hyenes.current(0)
         self.change_hyene(self.dictHyene, Hyenes.get())
         del self.dictHyene[HyenesMourante]
         if self.faucon:
