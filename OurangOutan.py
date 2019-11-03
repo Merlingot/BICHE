@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from Cameleon import *
 from Faucon import *
+from pathlib import Path
+
 class Lion(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -12,6 +14,10 @@ class Lion(tk.Tk):
         # Grid scaling
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
+        tk.Tk.wm_title(self, "LION")
+        directory = Path.cwd()
+        image = tk.PhotoImage(master=self, file=directory / 'Owww.gif')
+        tk.Tk.wm_iconphoto(self, '-default', image)
         hyene = Hyene(self)
         hyene.grid(row=2, column=2)
         lionceau = Lionceau(self)
@@ -59,8 +65,8 @@ class LionneQuiRegarde(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.vision = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
         self.bind('<Configure>', self.vision.change_dimensions)
-        self.vision.axes.set_xlim(left=-0.01, right=0.01)
-        self.vision.axes.set_ylim(bottom=-0.01, top=0.01)
+        self.vision.axes.set_xlim(left=-1, right=1)
+        self.vision.axes.set_ylim(bottom=-1, top=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 

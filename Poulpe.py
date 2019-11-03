@@ -97,16 +97,18 @@ class Poulpe:
 
 
         #cont = self.vision.axes.tricontourf(mesh, field)
-        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=50, linscale = 5, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
+        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu',
+                                    norm = colors.SymLogNorm(linthresh=1e-6,
+                                                             linscale = 5, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
 
-            
+
         self.vision.update_graph()
 
     """
     Desc : Update values dans le graph GUI VISION grace a la fonction compute_field
     """
     def update_mesh(self):
-        
+
 
         i=0
         field = np.zeros((self.X.size, self.Y.size))
@@ -118,6 +120,8 @@ class Poulpe:
             i+=1
 
         #cont = self.vision.axes.tricontourf(mesh, field)
-        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=50, linscale = 5, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
-            
+        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu',
+                                    norm = colors.SymLogNorm(linthresh=1e-6,
+                                                             linscale = 5, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
+
         self.vision.update_graph()
