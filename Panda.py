@@ -48,7 +48,7 @@ class Panda:
         self.varpos[0].set(self.pos[0])
         self.varpos[1].set(self.pos[1])
         self.storePos.append(self.pos)
-        self.graph_link.update_position(self.graph)
+        #self.graph_link.update_position(self.graph)
 
     def update_vit(self, newVit):
         self.lastVit = self.storeVit[-1]
