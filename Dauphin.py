@@ -39,7 +39,9 @@ class Dauphin:
                 posn = verlet_step_n(self.panda, self.poulpe, self.dt, self.dq)
                 # Update position (and velocity - TO DO)
                 self.panda.update_pos(posn)
-        return 1
+
+
+
 
 
 def space_derivative_energy(panda, poulpe, dq):
