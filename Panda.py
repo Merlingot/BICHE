@@ -29,7 +29,7 @@ class Panda:
     def initialize_data(self):
 
         self.pos0 = [self.varpos[0].get(), self.varpos[1].get()]
-        self.pos = self.pos
+        self.pos = self.pos0
         self.storePos = [self.pos0]
         self.vit0 = [self.varvit[0].get(), self.varvit[1].get()]
         self.vit = self.vit0

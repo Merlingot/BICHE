@@ -64,8 +64,8 @@ class Cameleon:
             This parameter automaticly sent through when you click on the
             line.
         """
-        width = event.width/self.Fig.get_dpi()
-        height = event.height/self.Fig.get_dpi()
+        width = self.parent.winfo_width()/self.Fig.get_dpi()
+        height = self.parent.winfo_height()/self.Fig.get_dpi()
         self.Fig.set_size_inches(w=width, h=height)
 
     def update_graph(self):
@@ -77,7 +77,9 @@ class Cameleon:
         """
         self.Fig.canvas.draw()
         self.Fig.canvas.flush_events()
-
+        width = self.parent.winfo_width()/self.Fig.get_dpi()
+        height = self.parent.winfo_height()/self.Fig.get_dpi()
+        self.Fig.set_size_inches(w=width, h=height)
     def destroy_graph(self):
         """
         This function is a compilation of two line to destroy a graph ie if

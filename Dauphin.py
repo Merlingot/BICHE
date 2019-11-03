@@ -42,7 +42,7 @@ class Dauphin:
         if N > 1:
             for n in range(N-1):
                 # Calculate next position (and velocity - TO DO)
-                posn = verlet_step_n(self.panda, self.poulpe, self.dt, self.dq, self.xmin, self.xmax, self.ymin, self.ymax)
+                posn = verlet_step_n(self.panda, self.poulpe, dt, dq, self.xmin, self.xmax, self.ymin, self.ymax)
 
 
 def puck_outside(posNplus1, xmin, xmax, ymin, ymax):
@@ -89,8 +89,9 @@ def space_derivative_energy(panda, poulpe, dq):
     """
     vecdqX = np.array([dq,0])
     vecdqY = np.array([0,dq])
-    derivativeX = ( poulpe.compute_field(panda.pos+vecdqX)@panda.m -poulpe.compute_field(panda.pos-vecdqX)@panda.m )/(2*dq)
-    derivativeY = ( poulpe.compute_field(panda.pos+vecdqY)@panda.m -poulpe.compute_field(panda.pos-vecdqY)@panda.m)/(2*dq)
+    derivativeX = np.divide(( poulpe.compute_field(panda.pos+vecdqX)-poulpe.compute_field(panda.pos-vecdqX)*panda.m ),2*dq)
+    derivativeY = np.divide( poulpe.compute_field(panda.pos+vecdqY)*panda.m
+                            -poulpe.compute_field(panda.pos-vecdqY)*panda.m,2*dq)
     vecDerivative = (-1)*np.array([derivativeX, derivativeY])
     return vecDerivative
 
@@ -109,8 +110,11 @@ def forceOutsideBounds(panda, pos, poulpe, dq):
     """
     vecdqX = np.array([dq,0])
     vecdqY = np.array([0,dq])
-    derivativeX = ( poulpe.compute_field(pos+vecdqX)@panda.m -poulpe.compute_field(pos-vecdqX)@panda.m )/(2*dq)
-    derivativeY = ( poulpe.compute_field(pos+vecdqY)@panda.m -poulpe.compute_field(pos-vecdqY)@panda.m)/(2*dq)
+    derivativeX = np.multiply( poulpe.compute_field(pos+vecdqX)
+                   -poulpe.compute_field(pos-vecdqX), panda.m)
+    derivativeX = np.divide(derivativeX,2*dq)
+    derivativeY = ( poulpe.compute_field(pos+vecdqY)*panda.m
+                   -poulpe.compute_field(pos-vecdqY)*panda.m)/(2*dq)
     vecDerivative = (-1)*np.array([derivativeX, derivativeY])
     return vecDerivative
 
@@ -129,7 +133,8 @@ def verlet_step_1(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
         pos1 : np.array([qx, qy])
     """
     force0=space_derivative_energy(panda, poulpe, dq)
-    pos1 = panda.pos + panda.vit*dt +(0.5)*(dt**2)*force0/panda.mass
+    pos1 = panda.pos + np.multiply(panda.vit,dt)
+    pos1 += (0.5)*(dt**2)*np.divide(force0[0,:2] + force0[0, :2], panda.mass)
     if puck_outside(pos1, xmin, xmax, ymin, ymax):
         reflection(panda, pos1, xmin, xmax, ymin, ymax)
     else:
@@ -137,7 +142,8 @@ def verlet_step_1(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
         panda.update_pos(pos1)
         # Calcul vitesse
         force1 = space_derivative_energy(panda, poulpe, dq)
-        vit1 = panda.vit + 0.5*dt*(force0 + force1)/panda.mass
+        vit1 = panda.vit + np.divide(0.5*dt*(force0[0,:2] + force0[1,:2]+
+                                             force1[0,:2] + force1[1, :2]),panda.mass)
         # Update velocity
         panda.update_vit(vit1)
         # outside ?
@@ -158,7 +164,7 @@ def verlet_step_n(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
         posn : np.array([qx, qy])
     """
     forceN=space_derivative_energy(panda, poulpe, dq)
-    posNplus1 = 2*panda.pos - panda.lastPos + (dt**2)*forceN/panda.mass
+    posNplus1 = 2*panda.pos - panda.lastPos + (dt**2)*(forceN[0,:2] + forceN[1, :2])/panda.mass
 
     # outside ?
     if puck_outside(posNplus1, xmin, xmax, ymin, ymax):
@@ -168,7 +174,9 @@ def verlet_step_n(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
         panda.update_pos(posNplus1)
         # calculer vitesse
         forceNplus1 = space_derivative_energy(panda, poulpe, dq)
-        vitNplus1 = panda.vit + 0.5*dt*(forceN + forceNplus1)/panda.mass
+        vitNplus1 = panda.vit + 0.5*dt*(forceN[0, :2] + forceN[1, :2] +
+                                        forceNplus1[0, :2] + forceNplus1[1,
+                                                                         :2])/panda.mass
         # Update velocity
         panda.update_vit(vitNplus1)
     return panda.pos

@@ -73,7 +73,7 @@ class LionneQuiRegarde(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         self.vision = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
-        self.bind('<Configure>', self.vision.change_dimensions)
+        #self.bind('<Configure>', self.vision.change_dimensions)
         self.vision.axes.set_xlim(left=-1, right=1)
         self.vision.axes.set_ylim(bottom=-1, top=1)
         self.grid_columnconfigure(0, weight=1)
@@ -153,8 +153,11 @@ class Fourmi(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent, text='Fourmi')
         self.dq = tk.DoubleVar()
+        self.dq.set(1e-4)
         self.nt = tk.IntVar()
+        self.nt.set(15)
         self.dt = tk.DoubleVar()
+        self.dt.set(1e-6)
 
         tk.Label(self, text='\u03B4'+'q :').grid(row=0, column=0,
                                                      sticky='nw')
@@ -241,7 +244,6 @@ class Hyene(ttk.LabelFrame):
             self.faucon.dict_hyene_to_poulpe()
 
     def detruire_hyene(self, Hyenes, HyenesMourante):
-        print(Hyenes)
         troupeHyene = list(Hyenes['value'])
         troupeHyene.remove(HyenesMourante)
         Hyenes['value'] = tuple(troupeHyene)
