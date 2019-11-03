@@ -64,21 +64,21 @@ class Panda:
         Set current position as last position
         Set new position as current position
         """
-        self.lastPos = self.storePos[-1]
+        self.lastPos = self.pos
         self.pos = newPos
         if self.varpos:
             self.varpos[0].set(self.pos[0])
             self.varpos[1].set(self.pos[1])
-        self.storePos.append(self.pos)
+        # self.storePos.append(self.pos)
         #self.graph_link.update_position(self.graph)
 
     def update_vit(self, newVit):
-        self.lastVit = self.storeVit[-1]
+        self.lastVit = self.vit
         self.vit = newVit
         if self.varvit:
             self.varvit[0].set(self.vit[0])
             self.varvit[1].set(self.vit[1])
-        self.storeVit.append(self.vit)
+        # self.storeVit.append(self.vit)
 
     def clear_panda(self):
         self.pos = self.pos0
