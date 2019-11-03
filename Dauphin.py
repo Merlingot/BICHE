@@ -23,6 +23,9 @@ class Dauphin:
         self.dt = dt # time step
         self.dq = dq # space step
 
+    def __str__(self):
+        return str(self.dt)
+
     def solve(self, N):
         """
         Solve for N time steps
