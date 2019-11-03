@@ -17,10 +17,11 @@ class Faucon:
 		self.dictHyene = dictHyene
 		self.dict_hyene_to_poulpe()
 		self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force)
-		self.dauphin = Dauphin(self.panda, self.poulpe, fourmi.dt,fourmi.dq)
+		self.dauphin = Dauphin(self.panda, self.poulpe, fourmi.dt,fourmi.dq, vision.axes.get_xlim(), vision.axes.get_ylim())
 
 	def run_simulation(self, nt):
-		dauphin.solve(nt)
+		self.dauphin.solve(nt)
+
 
 #Transforme un dictionnaire de Hyene en liste de Calmar et le set comme liste de calmars de poulpe
 	def dict_hyene_to_poulpe(self):
