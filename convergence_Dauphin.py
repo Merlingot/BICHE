@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 
+
 # POOOOUUUUUUUUUULLLLLPPPPPPPPPPEEEEEEEEEEEE
 poulpe = Poulpe()
 poulpe.add_calmar(10, np.array([0,1e-1]))
@@ -27,6 +28,8 @@ Lt = 1
 Nts = np.power(2, np.arange(3,13)) #Differents nombre de points
 dts = np.zeros(len(Nts)) #dt pour les differents nombre de points
 errsdt = np.zeros(len(Nts)) #erreurs pour les differents nombre de points
+xlim = np.array([-100,100])
+ylim = np.array([-100,100])
 
 for indexdt in range(len(Nts)): # index sur les Nt
     Nt = Nts[indexdt] #nbre de points de temps
@@ -35,9 +38,8 @@ for indexdt in range(len(Nts)): # index sur les Nt
     dt2 = Lt/Nt2
     dts[indexdt] = dt
 
-
-    dauphin = Dauphin(panda, poulpe, dt, dq)
-    dauphin2 = Dauphin(panda2, poulpe, dt2, dq)
+    dauphin = Dauphin(panda, poulpe, dt, dq, xlim, ylim)
+    dauphin2 = Dauphin(panda2, poulpe, dt2, dq, xlim, ylim)
 
     dauphin.solve(Nt)
     dauphin2.solve(Nt2)

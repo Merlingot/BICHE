@@ -16,12 +16,15 @@ class Dauphin:
         Poulpe : Outils pour le magnetic field
         dt : discretisation en temps
         dq : discretisation de l'espace
+        xlim, ylim : np.array([min,max])
     """
-    def __init__(self, panda, poulpe, dt, dq):
+    def __init__(self, panda, poulpe, dt, dq, xlim, ylim):
         self.panda = panda
         self.poulpe = poulpe
         self.dt = dt # time step
         self.dq = dq # space step
+        self.xmin, self.xmax = xlim[0], xlim[1]
+        self.ymin, self.ymax = ylim[0], ylim[1]
 
     def __str__(self):
         return str(self.dt)
@@ -43,6 +46,11 @@ class Dauphin:
                 # Update position (and velocity - TO DO)
                 self.panda.update_pos(posn)
 
+    def puck_inside(pos):
+        """ Check if the position of the puck is inside the limits.
+        If is inside, return True """
+        if self.xmin < pos[0] < self.xmax and self.ymin < pos[1] < self.ymax:
+            return True
 
 
 
