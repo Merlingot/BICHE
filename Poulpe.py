@@ -96,5 +96,5 @@ class Poulpe:
         
 
         #cont = self.vision.axes.tricontourf(mesh, field)
-        self.vision.axes.pcolormesh(xx, yy,field,cmap='RdBu',vmin=-field.max(),vmax=field.max())
+        self.vision.axes.pcolormesh(xx, yy,field,cmap='RdBu',vmin=-np.abs(field).max(),vmax=np.abs(field).max())
         self.vision.update_graph()
