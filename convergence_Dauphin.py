@@ -8,6 +8,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 
+# PARAMETRES !!!
+dq = 1e-8
+Lt = 1e-6
+masse = 1e-3
 
 # POOOOUUUUUUUUUULLLLLPPPPPPPPPPEEEEEEEEEEEE
 poulpe = Poulpe()
@@ -25,7 +29,7 @@ panda2 = Panda(pos0, vit0, m)
 # # Convergence Temporelle
 dq = 1e-1
 Lt = 1
-Nts = np.power(2, np.arange(3,13)) #Differents nombre de points
+Nts = np.power(2, np.arange(10,13)) #Differents nombre de points
 dts = np.zeros(len(Nts)) #dt pour les differents nombre de points
 errsdt = np.zeros(len(Nts)) #erreurs pour les differents nombre de points
 errsvit = np.zeros(len(Nts))
@@ -42,14 +46,14 @@ for indexdt in range(len(Nts)): # index sur les Nt
     dauphin = Dauphin(panda, poulpe, dt, dq, xlim, ylim, Nt)
     dauphin2 = Dauphin(panda2, poulpe, dt2, dq, xlim, ylim, Nt2)
 
-    dauphin.solve()
-    dauphin2.solve()
+    sol,vit, en = dauphin.solve()
+    sol2,vit2, en2 = dauphin2.solve()
 
-    sol = np.array(dauphin.panda.storePos) # sol[temps][x,y]
-    sol2 = np.array(dauphin2.panda.storePos)
-
-    vit = np.array(dauphin.panda.storeVit) # sol[temps][x,y]
-    vit2 = np.array(dauphin2.panda.storeVit)
+    # sol = np.array(dauphin.panda.storePos) # sol[temps][x,y]
+    # sol2 = np.array(dauphin2.panda.storePos)
+    #
+    # vit = np.array(dauphin.panda.storeVit) # sol[temps][x,y]
+    # vit2 = np.array(dauphin2.panda.storeVit)
 
     dauphin.panda.clear_panda()
     dauphin2.panda.clear_panda()
@@ -104,17 +108,17 @@ for indexdq in range(len(dqs)): # index sur les dq
     dq = dqs[indexdq]
     dq2 = dqs[indexdq]/2
 
-    dauphin = Dauphin(panda, poulpe, dt, dq,xlim,ylim, Nt)
-    dauphin2 = Dauphin(panda2, poulpe, dt, dq2,xlim,ylim, Nt)
+    dauphin = Dauphin(panda, poulpe, dt, dq, xlim,ylim, Nt)
+    dauphin2 = Dauphin(panda2, poulpe, dt, dq2, xlim,ylim, Nt)
 
-    dauphin.solve()
-    dauphin2.solve()
+    sol,vit, en = dauphin.solve()
+    sol2,vit2, en2 = dauphin2.solve()
 
-    sol = np.array(dauphin.panda.storePos) # sol[temps][x,y]
-    sol2 = np.array(dauphin2.panda.storePos)
-
-    vit = np.array(dauphin.panda.storeVit) # sol[temps][x,y]
-    vit2 = np.array(dauphin2.panda.storeVit)
+    # sol = np.array(dauphin.panda.storePos) # sol[temps][x,y]
+    # sol2 = np.array(dauphin2.panda.storePos)
+    #
+    # vit = np.array(dauphin.panda.storeVit) # sol[temps][x,y]
+    # vit2 = np.array(dauphin2.panda.storeVit)
 
     dauphin.panda.clear_panda()
     dauphin2.panda.clear_panda()
