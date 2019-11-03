@@ -13,15 +13,18 @@ class Lion(tk.Tk):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         hyene = Hyene(self)
-        hyene.grid(row=1, column=2)
+        hyene.grid(row=2, column=2)
         lionceau = Lionceau(self)
-        lionceau.grid(row=1, column=0)
+        lionceau.grid(row=2, column=0)
         fourmi = Fourmi(self)
-        fourmi.grid(row=1, column=1)
+        fourmi.grid(row=2, column=1)
         lionneQuiJuge = LionneQuiJuge(self)
         lionneQuiJuge.grid(row=0, column=2)
+        lionneQuiSurveille = LionneQuiSurveille(self)
+        lionneQuiSurveille.grid(row=1, column=2)
         lionneQuiRegarde = LionneQuiRegarde(self)
-        lionneQuiRegarde.grid(row=0, column=0, columnspan=2)
+        lionneQuiRegarde.grid(row=0, column=0, columnspan=2,
+                             rowspan=2)
         faucon= Faucon(lionceau, hyene.dictHyene,
                        lionneQuiJuge.course,
                        lionneQuiRegarde.vision,
@@ -33,7 +36,8 @@ class Lion(tk.Tk):
             self.grid_columnconfigure(i, weight=1)
             for j in range(2):
                 self.grid_rowconfigure(j, weight=1)
-
+        self.bind('<Configure>',
+                  lionneQuiRegarde.vision.change_dimensions)
     def frame_switch(self, dict_, new):
         for frame in self.Frame:
             frame.grid_forget()
@@ -55,8 +59,16 @@ class LionneQuiRegarde(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.vision = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
         self.bind('<Configure>', self.vision.change_dimensions)
-        self.vision.axes.set_xlim(left=0, right=0.01)
-        self.vision.axes.set_ylim(bottom=0, top=0.01)
+        self.vision.axes.set_xlim(left=-0.01, right=0.01)
+        self.vision.axes.set_ylim(bottom=-0.01, top=0.01)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+class LionneQuiSurveille(tk.Frame):
+    def __init__(self, parent):
+        tk.Frame.__init__(self, parent)
+        self.veille = Cameleon(self, axis_name=['', ''], figsize=[2, 2])
+        self.bind('<Configure>', self.veille.change_dimensions)
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
             for j in range(2):
