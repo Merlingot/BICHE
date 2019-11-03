@@ -22,10 +22,13 @@ class Lion(tk.Tk):
         lionneQuiJuge.grid(row=0, column=2)
         lionneQuiRegarde = LionneQuiRegarde(self)
         lionneQuiRegarde.grid(row=0, column=0, columnspan=2)
-        Faucon(lionceau, hyene.dictHyene,
-               lionneQuiJuge.course,
-               lionneQuiRegarde.vision,
-               fourmi)
+        faucon= Faucon(lionceau, hyene.dictHyene,
+                       lionneQuiJuge.course,
+                       lionneQuiRegarde.vision,
+                       fourmi)
+        hyene.faucon = faucon
+        hyene.une_hyene_est_nee()
+
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
             for j in range(2):
@@ -52,6 +55,8 @@ class LionneQuiRegarde(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.vision = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
         self.bind('<Configure>', self.vision.change_dimensions)
+        self.vision.axes.set_xlim(left=0, right=0.01)
+        self.vision.axes.set_ylim(bottom=0, top=0.01)
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
             for j in range(2):
@@ -129,43 +134,41 @@ class Fourmi(ttk.LabelFrame):
 class Hyene(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent)
-
+        self.faucon = None
 
         # List complete de Hyene
         self.dictHyene = {}
         self.number=1
         # Creating combobox
-        listHyene = ttk.Combobox(self, textvariable='',
+        self.listHyene = ttk.Combobox(self, textvariable='',
                                  state='readonly')
-        listHyene.grid(row=0, column=0, sticky='nsew')
+        self.listHyene.grid(row=0, column=0, sticky='nsew')
         # Binding the click with frame switch
-        listHyene.bind('<<ComboboxSelected>>', lambda e:
-                       self.change_hyene(self.dictHyene, listHyene.get()))
+        self.listHyene.bind('<<ComboboxSelected>>', lambda e:
+                       self.change_hyene(self.dictHyene, self.listHyene.get()))
 
-        listHyene['values'] = ['Hyene:0']
-        self.dictHyene['Hyene:0'] = BebeHyene(self)
-        listHyene.current(0)
-        self.change_hyene(self.dictHyene, listHyene.get())
         tempAjouter=tk.Button(self, text='Ajouter Hyene',
-                          command=lambda:self.ajouter_hyene(listHyene,
+                          command=lambda:self.ajouter_hyene(self.listHyene,
                                                       self.number))
         tempAjouter.grid(column=0, row=2)
         destroyHyene=tk.Button(self, text='Destroy Hyene',
-                          command=lambda:self.detruire_hyene(listHyene,
-                                                            listHyene.get()))
+                          command=lambda:self.detruire_hyene(self.listHyene,
+                                                            self.listHyene.get()))
         destroyHyene.grid(column=1, row=2)
         for i in range(1):
             for j in range(1):
                 self.grid_columnconfigure(i, weight=1)
                 self.grid_rowconfigure(j, weight=1)
 
-        self.config(labelwidget=listHyene, width=100, height=100)
+        self.config(labelwidget=self.listHyene, width=100, height=100)
 
-    def ajouter_hyene(self, Hyenes, numero):
+    def ajouter_hyene(self, Hyenes=None, numero=None):
         Hyenes['value'] = Hyenes['value'] + ('Hyene:'+
                                                  '{}'.format(numero), )
-        self.dictHyene['Hyene:{}'.format(numero)] = BebeHyene(self)
+        self.dictHyene['Hyene:{}'.format(numero)] = BebeHyene(self, self.faucon)
         self.number+=1
+        if self.faucon:
+            self.faucon.dict_hyene_to_poulpe()
 
     def detruire_hyene(self, Hyenes, HyenesMourante):
         troupeHyene = list(Hyenes['value'])
@@ -174,19 +177,28 @@ class Hyene(ttk.LabelFrame):
         Hyenes.current(0)
         self.change_hyene(self.dictHyene, Hyenes.get())
         del self.dictHyene[HyenesMourante]
+        if self.faucon:
+            self.faucon.dict_hyene_to_poulpe()
 
     def change_hyene(self, hyenes, nouvelhyene):
         for hyene in hyenes:
             hyenes[hyene].grid_forget()
         hyenes[nouvelhyene].grid(column=0, row=0, sticky='nsew',
                                     columnspan=2)
+    def une_hyene_est_nee(self):
+        self.listHyene['values'] = ['Hyene:0']
+        self.dictHyene['Hyene:0'] = BebeHyene(self, self.faucon)
+        self.listHyene.current(0)
+        self.change_hyene(self.dictHyene, self.listHyene.get())
+        self.faucon.dict_hyene_to_poulpe()
 
 class BebeHyene(tk.Frame):
-    def __init__(self, Hyene):
+    def __init__(self, Hyene, faucon):
         tk.Frame.__init__(self, Hyene)
         positionX = tk.DoubleVar()
         positionY = tk.DoubleVar()
         self.force = tk.DoubleVar()
+        self.force.set(1)
         self.pos = [positionX, positionY]
 
         tk.Label(self, text='Position [X,Y] :').grid(row=0, column=0,
@@ -199,11 +211,14 @@ class BebeHyene(tk.Frame):
                         width=6)
         forceE = tk.Entry(self, textvariable=self.force,
                         width=6)
-
-        posXE.grid(row=0, column=1, sticky='nsew')
-        posYE.grid(row=0, column=2, sticky='nsew')
-        forceE.grid(row=2, column=1, sticky='nsew',
-                   columnspan=2)
+        if faucon:
+            posXE.grid(row=0, column=1, sticky='nsew')
+            posYE.grid(row=0, column=2, sticky='nsew')
+            forceE.grid(row=2, column=1, sticky='nsew',
+                        columnspan=2)
+            posXE.bind('<Return>', lambda e:faucon.update_graphB())
+            posYE.bind('<Return>', lambda e:faucon.update_graphB())
+            forceE.bind('<Return>', lambda e:faucon.update_graphB())
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
