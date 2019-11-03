@@ -74,8 +74,8 @@ class LionneQuiRegarde(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.vision = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
         #self.bind('<Configure>', self.vision.change_dimensions)
-        self.vision.axes.set_xlim(left=-1, right=1)
-        self.vision.axes.set_ylim(bottom=-1, top=1)
+        self.vision.axes.set_xlim(left=-1e-4, right=1e-4)
+        self.vision.axes.set_ylim(bottom=-1e-4, top=1e-4)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -228,9 +228,9 @@ class Hyene(ttk.LabelFrame):
             self.ajouter_hyene(self.listHyene,i)
 
         for hyene in self.dictHyene:
-            self.dictHyene[hyene].pos[0].set( random.uniform(-1,1) )
-            self.dictHyene[hyene].pos[1].set( random.uniform(-1,1) )
-            self.dictHyene[hyene].force.set( random.uniform(-10,10) )
+            self.dictHyene[hyene].pos[0].set( random.uniform(-1e-4,1e-4) )
+            self.dictHyene[hyene].pos[1].set( random.uniform(-1e-4,1e-4) )
+            self.dictHyene[hyene].force.set( random.uniform(-1e-6,1e-6) )
 
         if self.faucon:
             self.faucon.update_graphB()

@@ -112,8 +112,8 @@ class Poulpe:
         self.vision.axes.pcolormesh(self.xx,
                                     self.yy,field,cmap='RdBu',
                                     shading = 'gouraud',
-                                    norm = colors.SymLogNorm(linthresh=1e-6,
-                                                             linscale = 5,
+                                    norm = colors.SymLogNorm(linthresh=0.004,
+                                                             linscale = 0.5,
                                                              vmin=-np.abs(field).max(),
                                                              vmax=np.abs(field).max()),
                                    animated=True,
@@ -143,8 +143,8 @@ class Poulpe:
         #cont = self.vision.axes.tricontourf(mesh, field)
         self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu',
                                     shading = 'gouraud',
-                                    norm = colors.SymLogNorm(linthresh=1e-6,
-                                                             linscale = 5,
+                                    norm = colors.SymLogNorm(linthresh=0.004,
+                                                             linscale = 0.5,
                                                              vmin=-np.abs(field).max(),
                                                              vmax=np.abs(field).max()),
                                    )
