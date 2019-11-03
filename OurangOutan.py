@@ -42,7 +42,7 @@ class Lion(tk.Tk):
                             velx=lionceau.vit[0], vely=lionceau.vit[1])
         lionneQuiRegarde.vision.update_graph()
         lionceau.bind_simba(cameleon, lionneQuiRegarde.vision)
-
+        faucon.link_panda_to_graph(cameleon, lionneQuiRegarde.vision)
         GETTHISSHITDONE = tk.Button(self, text='RUN THIS SHIT',
                                     command=lambda:faucon.run_simulation())
         GETTHISSHITDONE.grid(row=2, column=2, sticky='nsew', rowspan=2)

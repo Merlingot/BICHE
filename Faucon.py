@@ -11,25 +11,30 @@ class Faucon:
 
 
 	# Constructeur
-	def __init__(self, lionceau,dictHyene,course, vision,fourmi):
-		self.nt = fourmi.nt
-		self.poulpe = Poulpe(vision)
-		self.dictHyene = dictHyene
-		self.dict_hyene_to_poulpe()
-		self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force,lionceau.masse)
-		self.dauphin = Dauphin(self.panda, self.poulpe, fourmi.dt,fourmi.dq, vision.axes.get_xlim(), vision.axes.get_ylim())
+    def __init__(self, lionceau,dictHyene,course, vision,fourmi):
+        self.nt = fourmi.nt
+        self.poulpe = Poulpe(vision)
+        self.dictHyene = dictHyene
+        self.dict_hyene_to_poulpe()
+        self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force,lionceau.masse)
+        self.dauphin = Dauphin(self.panda, self.poulpe, fourmi.dt,
+                         fourmi.dq,
+                         vision.axes.get_xlim(), vision.axes.get_ylim(),
+                         fourmi.nt)
 
-	def run_simulation(self):
-		self.dauphin.solve(self.nt.get())
+    def run_simulation(self):
+        self.dauphin.solve()
 
-
+    def link_panda_to_graph(self, tachePanda, graph):
+        self.panda.graph_link = tachePanda
+        self.panda.graph = graph
 #Transforme un dictionnaire de Hyene en liste de Calmar et le set comme liste de calmars de poulpe
-	def dict_hyene_to_poulpe(self):
-		calmarList = []
-		for key in self.dictHyene:
-			calmarList.append(Calmar(self.dictHyene[key].force,self.dictHyene[key].pos))
-		self.poulpe.set_calmars(calmarList)
+    def dict_hyene_to_poulpe(self):
+        calmarList = []
+        for key in self.dictHyene:
+            calmarList.append(Calmar(self.dictHyene[key].force,self.dictHyene[key].pos))
+        self.poulpe.set_calmars(calmarList)
 
 	#Mise a jour du graphique
-	def update_graphB(self):
-		self.poulpe.update_mesh()
+    def update_graphB(self):
+        self.poulpe.update_mesh()
