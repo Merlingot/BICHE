@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.tri as tri
 from Calmar import Calmar
-
+import matplotlib.colors as colors
 ## Classe utiliser pour obtenir le champs magnetique en tout point grace a une liste de aimants (Calmar)
 
 ############## SSSSSSSSQQQQQQQQQQQQUUUUUUUUUIIIIIIIIIIIIDDDDDDDDDDDDD ###################
@@ -96,7 +96,7 @@ class Poulpe:
 
 
         #cont = self.vision.axes.tricontourf(mesh, field)
-        #c = self.vision.axes.pcolormesh(xx, yy,field,cmap='RdBu',vmin=-np.abs(field).max(),vmax=np.abs(field).max())
+        self.vision.axes.pcolormesh(xx, yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=0.03, linscale = 0.03, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
         #self.vision.Fig.colormap(c, ax = self.vision.axes)
             
 
