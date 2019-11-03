@@ -95,15 +95,15 @@ class Lionceau(ttk.LabelFrame):
         self.masse = tk.DoubleVar()
         self.masse.set(10e-3)
         vitesseX = tk.DoubleVar()
-        vitesseX.set(1e-1)
+        vitesseX.set(1e-6)
         vitesseY = tk.DoubleVar()
-        vitesseY.set(1e-1)
+        vitesseY.set(1e-6)
         positionX = tk.DoubleVar()
-        positionX.set(0.25)
+        positionX.set(0.25e-4)
         positionY = tk.DoubleVar()
-        positionY.set(0.25)
+        positionY.set(0.25e-4)
         self.force = tk.DoubleVar()
-        self.force.set(0.1)
+        self.force.set(0.1e-6)
         self.pos = [positionX, positionY]
         self.vit = [vitesseX, vitesseY]
 
