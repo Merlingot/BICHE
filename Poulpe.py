@@ -75,8 +75,8 @@ class Poulpe:
 
         x = self.vision.axes.get_xlim()
         y = self.vision.axes.get_ylim()
-        X = np.linspace( x[0], x[1], 20 )
-        Y = np.linspace( y[0], y[1], 20 )
+        X = np.linspace( x[0], x[1], 100 )
+        Y = np.linspace( y[0], y[1], 100 )
 
         xx, yy = np.meshgrid(X,Y)
 
