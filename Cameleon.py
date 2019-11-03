@@ -38,18 +38,17 @@ class Cameleon:
         self.Fig = Figure(dpi=100, figsize=figsize)
         # Adjusting the axis in the figure and setting up necessary parameters
         # for naming the axis
-        self.axes = self.Fig.add_axes([0.1, 0.1, 0.87, 0.87])
+        self.axes = self.Fig.add_axes([0.11, 0.05, 0.85, 0.88])
         self.axes.set_aspect('auto', adjustable='box')
         self.axes.set_adjustable('box')
-        #self.Line, = self.axes.plot([], [])
+        self.Line, = self.axes.plot([], [])
         self.axes.tick_params(axis='both', which='major', labelsize=8)
         self.axes.grid()
-        self.axes.set_xlabel(r'' + axis_name[0])
-        self.axes.set_ylabel(r'' + axis_name[1])
         #Creating toolbar for convinience reason and canvas to host the figure
         self.canvas = FigureCanvasTkAgg(self.Fig, parent)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(expand=True, fill='both')
+        self.canvas._tkcanvas.pack()
 
     def change_dimensions(self, event):
         """

@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.tri as tri
 from Calmar import Calmar
 import matplotlib.colors as colors
+from matplotlib import ticker, cm
 ## Classe utiliser pour obtenir le champs magnetique en tout point grace a une liste de aimants (Calmar)
 
 ############## SSSSSSSSQQQQQQQQQQQQUUUUUUUUUIIIIIIIIIIIIDDDDDDDDDDDDD ###################
@@ -96,8 +97,8 @@ class Poulpe:
 
 
         #cont = self.vision.axes.tricontourf(mesh, field)
-        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=0.03, linscale = 0.03, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
-        #self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=0.03, linscale = 0.03, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
+        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=50, linscale = 5, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
+
             
         self.vision.update_graph()
 
@@ -117,7 +118,6 @@ class Poulpe:
             i+=1
 
         #cont = self.vision.axes.tricontourf(mesh, field)
-        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=0.03, linscale = 0.03, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
-        #self.vision.Fig.colormap(c, ax = self.vision.axes)
+        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=50, linscale = 5, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
             
         self.vision.update_graph()
