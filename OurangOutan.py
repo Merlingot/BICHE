@@ -74,8 +74,8 @@ class LionneQuiRegarde(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.vision = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
         #self.bind('<Configure>', self.vision.change_dimensions)
-        self.vision.axes.set_xlim(left=-1e-4, right=1e-4)
-        self.vision.axes.set_ylim(bottom=-1e-4, top=1e-4)
+        self.vision.axes.set_xlim(left=-1, right=1)
+        self.vision.axes.set_ylim(bottom=-1, top=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -93,17 +93,17 @@ class Lionceau(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent, text='Lionceau')
         self.masse = tk.DoubleVar()
-        self.masse.set(10e-3)
+        self.masse.set(65e-3)
         vitesseX = tk.DoubleVar()
-        vitesseX.set(1e-6)
+        vitesseX.set(0.2)
         vitesseY = tk.DoubleVar()
-        vitesseY.set(1e-6)
+        vitesseY.set(0.2)
         positionX = tk.DoubleVar()
-        positionX.set(0.25e-4)
+        positionX.set(0.25)
         positionY = tk.DoubleVar()
-        positionY.set(0.25e-4)
+        positionY.set(0.25)
         self.force = tk.DoubleVar()
-        self.force.set(0.1e-6)
+        self.force.set(0.1e-4)
         self.pos = [positionX, positionY]
         self.vit = [vitesseX, vitesseY]
 
@@ -153,11 +153,11 @@ class Fourmi(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent, text='Fourmi')
         self.dq = tk.DoubleVar()
-        self.dq.set(1e-4)
+        self.dq.set(1e-3)
         self.nt = tk.IntVar()
-        self.nt.set(15)
+        self.nt.set(50000)
         self.dt = tk.DoubleVar()
-        self.dt.set(1e-6)
+        self.dt.set(1e-8)
 
         tk.Label(self, text='\u03B4'+'q :').grid(row=0, column=0,
                                                      sticky='nw')
@@ -228,9 +228,9 @@ class Hyene(ttk.LabelFrame):
             self.ajouter_hyene(self.listHyene,i)
 
         for hyene in self.dictHyene:
-            self.dictHyene[hyene].pos[0].set( random.uniform(-1e-4,1e-4) )
-            self.dictHyene[hyene].pos[1].set( random.uniform(-1e-4,1e-4) )
-            self.dictHyene[hyene].force.set( random.uniform(-1e-6,1e-6) )
+            self.dictHyene[hyene].pos[0].set( random.uniform(-1,1) )
+            self.dictHyene[hyene].pos[1].set( random.uniform(-1,1) )
+            self.dictHyene[hyene].force.set( random.uniform(-5,5) )
 
         if self.faucon:
             self.faucon.update_graphB()
