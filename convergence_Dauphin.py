@@ -12,13 +12,13 @@ from numpy.linalg import norm
 
 # POOOOUUUUUUUUUULLLLLPPPPPPPPPPEEEEEEEEEEEE
 poulpe = Poulpe()
-poulpe.add_calmar(10, np.array([0,1e-1]))
+# poulpe.add_calmar(10, np.array([0,1]))
 # poulpe.add_calmar(-10, np.array([0.5,0.5]))
 # poulpe.add_calmar(50, np.array([1,1]))
 
 # PPPAAAAAAANNNNNNNNDDDDDDDAAAAAAAAAAA
 pos0 = np.array([0,0])
-vit0 = np.array([1e-3,0])
+vit0 = np.array([1e-6,0])
 m = np.array([0,0,1])
 panda = Panda(pos0, vit0, m)
 panda2 = Panda(pos0, vit0, m)
@@ -26,12 +26,12 @@ panda2 = Panda(pos0, vit0, m)
 # # Convergence Temporelle
 dq = 2**(-11)
 Lt = 2
-Nts = np.power(2, np.arange(3,13)) #Differents nombre de points
+Nts = np.power(2, np.arange(2,13)) #Differents nombre de points
 dts = np.zeros(len(Nts)) #dt pour les differents nombre de points
 errsdt = np.zeros(len(Nts)) #erreurs pour les differents nombre de points
 errsvit = np.zeros(len(Nts))
-xlim = np.array([-1e-3,1e-3])
-ylim = np.array([-1e-3,1e-3])
+xlim = np.array([-1e-1,1e-1])
+ylim = np.array([-1e-1,1e-1])
 
 for indexdt in range(len(Nts)): # index sur les Nt
     Nt = Nts[indexdt] #nbre de points de temps
@@ -67,6 +67,7 @@ for indexdt in range(len(Nts)): # index sur les Nt
 def f(x,p,c):
     return c + p*np.log(x)
 
+print(errsdt)
 popt, pcov = curve_fit(f, dts, np.log(errsdt))
 print(popt)
 poptV, pcovV = curve_fit(f, dts, np.log(errsvit))
@@ -121,7 +122,7 @@ dqs = np.array([2**(-11), 2**(-10), 2**(-9), 2**(-8), 2**(-7), 2**(-6),2**(-5)])
 
 errsdq = np.zeros(len(dqs)) #erreurs pour les differents nombre de points
 errsvit = np.zeros(len(dqs))
-# print(len(dqs))
+
 
 for indexdq in range(len(dqs)): # index sur les dq
 
@@ -193,7 +194,7 @@ plt.show()
 # plt.ylabel('px')
 # plt.plot(sol2[:,0], vit2[:,0])
 # plt.show()
-#
+
 # plt.figure()
 # plt.title('Espace des phases (Analyse temporelle)')
 # plt.xlabel('qy')

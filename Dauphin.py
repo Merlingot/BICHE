@@ -49,28 +49,6 @@ def puck_outside(posNplus1, xmin, xmax, ymin, ymax):
     if  posNplus1[0]<xmin or posNplus1[0]>xmax or ymin>posNplus1[1] or posNplus1[0]>ymax:
         return True
 
-def reflection(panda, xmin, xmax, ymin, ymax):
-    """ Changes posNplus1 and vitNplus1 for reflection """
-
-    x = panda.pos[0] #qnplus1
-    y = panda.pos[1] #qnplus1
-    vx = panda.vit[0]
-    vy = panda.vit[1]
-
-    print("x: "+ str(x)+" xmax: "+str(xmax)+" y: "+str(y)+" ymax: "+str(ymax))
-
-    if x>=xmax:
-        panda.pos[0] = 2*xmax - x
-        panda.vit[0] = -vx
-    elif x<=xmin:
-        panda.pos[0] = 2*xmin - x
-        panda.vit[0] = -vx
-    if y>=ymax:
-        panda.pos[1] = 2*ymax - y
-        panda.vit[1] = -vy
-    elif y<=ymin:
-        panda.pos[1] = 2*ymin - y
-        panda.vit[1] = -vy
 
 
 def space_derivative_energy(panda, poulpe, dq):
@@ -119,7 +97,8 @@ def verlet_step_1(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
     panda.update_vit(vit1)
     # outside ?
     if puck_outside(pos1, xmin, xmax, ymin, ymax):
-        reflection(panda, xmin, xmax, ymin, ymax)
+        # panda.reflection(panda, xmin, xmax, ymin, ymax)
+        pass
     return panda.pos
 
 def verlet_step_n(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
@@ -147,5 +126,6 @@ def verlet_step_n(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
     panda.update_vit(vitNplus1)
     # outside ?
     if puck_outside(posNplus1, xmin, xmax, ymin, ymax):
-        reflection(panda, xmin, xmax, ymin, ymax)
+        # panda.reflection(xmin, xmax, ymin, ymax)
+        pass
     return panda.pos
