@@ -20,17 +20,17 @@ class Lion(tk.Tk):
         image = tk.PhotoImage(master=self, file=directory / 'Owww.gif')
         tk.Tk.wm_iconphoto(self, '-default', image)
         hyene = Hyene(self)
-        hyene.grid(row=2, column=3, rowspan=2)
+        hyene.grid(row=3, column=3)
         lionceau = Lionceau(self)
-        lionceau.grid(row=2, column=0, rowspan=2)
+        lionceau.grid(row=2, column=3)
         fourmi = Fourmi(self)
-        fourmi.grid(row=2, column=1, rowspan=2)
+        fourmi.grid(row=1, column=3)
         lionneQuiJuge = LionneQuiJuge(self)
-        lionneQuiJuge.grid(row=0, column=3)
+        #lionneQuiJuge.grid(row=0, column=3)
         lionneQuiSurveille = LionneQuiSurveille(self)
-        lionneQuiSurveille.grid(row=1, column=3)
+        #lionneQuiSurveille.grid(row=1, column=3)
         lionneQuiRegarde = LionneQuiRegarde(self)
-        lionneQuiRegarde.grid(row=0, column=0, columnspan=3, rowspan=2)
+        lionneQuiRegarde.grid(row=0, column=0, columnspan=3, rowspan=4)
         faucon= Faucon(lionceau, hyene.dictHyene,
                        lionneQuiJuge.course,
                        lionneQuiRegarde.vision,
@@ -45,7 +45,7 @@ class Lion(tk.Tk):
         faucon.link_panda_to_graph(cameleon, lionneQuiRegarde.vision)
         GETTHISSHITDONE = tk.Button(self, text='RUN THIS SHIT',
                                     command=lambda:faucon.run_simulation())
-        GETTHISSHITDONE.grid(row=2, column=2, sticky='nsew', rowspan=2)
+        GETTHISSHITDONE.grid(row=0, column=3, sticky='nsew')
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
@@ -74,8 +74,8 @@ class LionneQuiRegarde(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.vision = Cameleon(self, axis_name=['', ''], figsize=[4, 4])
         #self.bind('<Configure>', self.vision.change_dimensions)
-        self.vision.axes.set_xlim(left=-1e-4, right=1e-4)
-        self.vision.axes.set_ylim(bottom=-1e-4, top=1e-4)
+        self.vision.axes.set_xlim(left=-1, right=1)
+        self.vision.axes.set_ylim(bottom=-1, top=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -93,17 +93,17 @@ class Lionceau(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent, text='Lionceau')
         self.masse = tk.DoubleVar()
-        self.masse.set(10e-3)
+        self.masse.set(65e-3)
         vitesseX = tk.DoubleVar()
-        vitesseX.set(1e-1)
+        vitesseX.set(0.2)
         vitesseY = tk.DoubleVar()
-        vitesseY.set(1e-1)
+        vitesseY.set(0.2)
         positionX = tk.DoubleVar()
         positionX.set(0.25)
         positionY = tk.DoubleVar()
         positionY.set(0.25)
         self.force = tk.DoubleVar()
-        self.force.set(0.1)
+        self.force.set(0.1e-4)
         self.pos = [positionX, positionY]
         self.vit = [vitesseX, vitesseY]
 
@@ -153,11 +153,11 @@ class Fourmi(ttk.LabelFrame):
     def __init__(self, parent):
         ttk.LabelFrame.__init__(self, parent, text='Fourmi')
         self.dq = tk.DoubleVar()
-        self.dq.set(1e-4)
+        self.dq.set(1e-3)
         self.nt = tk.IntVar()
-        self.nt.set(15)
+        self.nt.set(50000)
         self.dt = tk.DoubleVar()
-        self.dt.set(1e-6)
+        self.dt.set(1e-8)
 
         tk.Label(self, text='\u03B4'+'q :').grid(row=0, column=0,
                                                      sticky='nw')
@@ -228,9 +228,9 @@ class Hyene(ttk.LabelFrame):
             self.ajouter_hyene(self.listHyene,i)
 
         for hyene in self.dictHyene:
-            self.dictHyene[hyene].pos[0].set( random.uniform(-1e-4,1e-4) )
-            self.dictHyene[hyene].pos[1].set( random.uniform(-1e-4,1e-4) )
-            self.dictHyene[hyene].force.set( random.uniform(-1e-6,1e-6) )
+            self.dictHyene[hyene].pos[0].set( random.uniform(-1,1) )
+            self.dictHyene[hyene].pos[1].set( random.uniform(-1,1) )
+            self.dictHyene[hyene].force.set( random.uniform(-5,5) )
 
         if self.faucon:
             self.faucon.update_graphB()
