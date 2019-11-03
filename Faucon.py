@@ -16,7 +16,7 @@ class Faucon:
 		self.poulpe = Poulpe(vision)
 		self.dict_hyene_to_poulpe(dictHyene)
 		self.panda = Panda(lionceau.pos, lionceau.vit, lionceau.force)
-		self.dauphin = Dauphin(panda, poulpe, fourmi.dt,fourmi.dq)
+		self.dauphin = Dauphin(self.panda, self.poulpe, fourmi.dt,fourmi.dq)
 
 	def run_simulation(self, nt):
 		dauphin.solve(nt)
