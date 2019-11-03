@@ -31,4 +31,5 @@ class Faucon:
 
 	#Mise a jour du graphique
 	def update_graphB(self):
+		print("wazzap")
 		self.poulpe.update_mesh()
