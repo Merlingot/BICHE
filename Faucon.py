@@ -25,8 +25,8 @@ class Faucon:
 #Transforme un dictionnaire de Hyene en liste de Calmar et le set comme liste de calmars de poulpe
 	def dict_hyene_to_poulpe(self):
 		calmarList = []
-		for key in dictHyene:
-			calmarList.append(Calmar(dictHyene[key].force,dictHyene[key].pos))
+		for key in self.dictHyene:
+			calmarList.append(Calmar(self.dictHyene[key].force,self.dictHyene[key].pos))
 			self.poulpe.set_calmars(calmarList)
 
 	#Mise a jour du graphique
