@@ -50,7 +50,7 @@ class Panda:
         self.pos0 = np.array([self.pos0Var[0].get(),self.pos0Var[1].get()])
         self.vit0 = np.array([self.vit0Var[0].get(),self.vit0Var[1].get()])
         self.m = self.mVar.get()
-        self.mass=self.mass.get()
+        self.mass=self.massVar.get()
         self.pos = self.pos0
         self.vit = self.vit0
         self.storePos = [self.pos0]
