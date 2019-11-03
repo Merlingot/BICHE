@@ -36,15 +36,12 @@ class Dauphin:
         # n=1 step -------------------------------------------------
         # Calculate next position (and velocity - TO DO)
         pos1 = verlet_step_1(self.panda, self.poulpe, self.dt, self.dq)
-        # Update position (and velocity - TO DO)
-        self.panda.update_pos(pos1)
         # n>1 steps ------------------------------------------------
         if N > 1:
             for n in range(N-1):
                 # Calculate next position (and velocity - TO DO)
                 posn = verlet_step_n(self.panda, self.poulpe, self.dt, self.dq)
-                # Update position (and velocity - TO DO)
-                self.panda.update_pos(posn)
+
 
     def puck_inside(pos):
         """ Check if the position of the puck is inside the limits.
@@ -56,7 +53,7 @@ class Dauphin:
 
 
 def space_derivative_energy(panda, poulpe, dq):
-    """Calculates the energy derivatives in x and y in space at the position pos.
+    """Calculates the energy derivatives in x and y in space at the position pos. FORCE!!
     Derivative :
             U(q) = -m@B(q) -> U(q+dq)=-m@B(q+dq)
             dU/dq_i = (-1)*( m@B(q+dq_i) - m@B(q - dq_i) )/(2*dq_i)
@@ -90,7 +87,14 @@ def verlet_step_1(panda, poulpe, dt, dq):
     Returns:
         pos1 : np.array([qx, qy])
     """
-    pos1 = panda.pos + panda.vit*dt +(0.5)*(dt**2)*space_derivative_energy(panda, poulpe, dq)
+    force0=space_derivative_energy(panda, poulpe, dq)
+    pos1 = panda.pos + panda.vit*dt +(0.5)*(dt**2)*force0/panda.mass
+    # Update position (and velocity - TO DO)
+    panda.update_pos(pos1)
+    force1 = space_derivative_energy(panda, poulpe, dq)
+    vit1 = panda.vit + 0.5*dt*(force0 + force1)/panda.mass
+    # Update velocity
+    panda.update_vit(vit1)
     return pos1
 
 def verlet_step_n(panda, poulpe, dt, dq):
@@ -107,5 +111,12 @@ def verlet_step_n(panda, poulpe, dt, dq):
     Returns:
         posn : np.array([qx, qy])
     """
-    posn = 2*panda.pos - panda.lastPos + (dt**2)*space_derivative_energy(panda, poulpe, dq)
-    return posn
+    forceN=space_derivative_energy(panda, poulpe, dq)
+    posNplus1 = 2*panda.pos - panda.lastPos + (dt**2)*forceN/panda.mass
+    # Update position
+    panda.update_pos(posNplus1)
+    forceNplus1 = space_derivative_energy(panda, poulpe, dq)
+    vitNplus1 = panda.vit + 0.5*dt*(forceN + forceNplus1)/panda.mass
+    # Update velocity
+    panda.update_vit(vitNplus1)
+    return posNplus1
