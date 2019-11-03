@@ -75,13 +75,13 @@ class Poulpe:
 
         x = self.vision.axes.get_xlim()
         y = self.vision.axes.get_ylim()
-        X = np.linspace( x[0], x[1], 10000 )
-        Y = np.linspace( y[0], y[1], 10000 )
+        X = np.linspace( x[0], x[1], 1000 )
+        Y = np.linspace( y[0], y[1], 1000 )
 
         xx, yy = np.meshgrid(X,Y)
 
         #mesh = tri.Triangulation( X, Y )
-        
+
         #print(mesh)
 
         i=0
@@ -92,8 +92,8 @@ class Poulpe:
                 field[i][j] = self.compute_field(np.array([x,y]))[2]
                 j += 1
             i+=1
-        
-        
+
+
 
         #cont = self.vision.axes.tricontourf(mesh, field)
         c = self.vision.axes.pcolormesh(xx, yy,field,cmap='RdBu',vmin=-np.abs(field).max(),vmax=np.abs(field).max())
