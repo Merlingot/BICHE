@@ -39,11 +39,11 @@ for indexdt in range(len(Nts)): # index sur les Nt
     dt2 = Lt/Nt2
     dts[indexdt] = dt
 
-    dauphin = Dauphin(panda, poulpe, dt, dq, xlim, ylim)
-    dauphin2 = Dauphin(panda2, poulpe, dt2, dq, xlim, ylim)
+    dauphin = Dauphin(panda, poulpe, dt, dq, xlim, ylim, Nt)
+    dauphin2 = Dauphin(panda2, poulpe, dt2, dq, xlim, ylim, Nt2)
 
-    dauphin.solve(Nt)
-    dauphin2.solve(Nt2)
+    dauphin.solve()
+    dauphin2.solve()
 
     sol = np.array(dauphin.panda.storePos) # sol[temps][x,y]
     sol2 = np.array(dauphin2.panda.storePos)
@@ -104,11 +104,11 @@ for indexdq in range(len(dqs)): # index sur les dq
     dq = dqs[indexdq]
     dq2 = dqs[indexdq]/2
 
-    dauphin = Dauphin(panda, poulpe, dt, dq,xlim,ylim)
-    dauphin2 = Dauphin(panda2, poulpe, dt, dq2,xlim,ylim)
+    dauphin = Dauphin(panda, poulpe, dt, dq,xlim,ylim, Nt)
+    dauphin2 = Dauphin(panda2, poulpe, dt, dq2,xlim,ylim, Nt)
 
-    dauphin.solve(Nt)
-    dauphin2.solve(Nt)
+    dauphin.solve()
+    dauphin2.solve()
 
     sol = np.array(dauphin.panda.storePos) # sol[temps][x,y]
     sol2 = np.array(dauphin2.panda.storePos)

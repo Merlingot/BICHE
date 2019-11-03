@@ -31,9 +31,18 @@ class Dauphin:
         """
         Solve for N time steps
         """
-        dt = self.dt.get()
-        dq = self.dq.get()
-        N = self.nt.get()
+        if isinstance(self.nt, np.int64) :
+            dt = self.dt
+            dq = self.dq
+            N = self.nt
+        elif  isinstance(self.nt, int):
+            dt = self.dt
+            dq = self.dq
+            N = self.nt
+        else:
+            dt = self.dt.get()
+            dq = self.dq.get()
+            N = self.nt.get()
         self.panda.initialize_data()
         # n=1 step -------------------------------------------------
         # Calculate next position and position
@@ -43,9 +52,12 @@ class Dauphin:
             for n in range(N-1):
                 # Calculate next position (and velocity - TO DO)
                 posn = verlet_step_n(self.panda, self.poulpe, dt, dq, self.xmin, self.xmax, self.ymin, self.ymax)
-        self.panda.graph_link.update_position(self.panda.graph)
-        self.panda.graph.Fig.plot(self.panda.storePos[:,0], self.panda.storePos[:,1])
-        self.panda.graph.update_graph()
+
+        if self.panda.varpos:
+            self.panda.graph_link.update_position(self.panda.graph)
+            arr = np.array(self.panda.storePos)
+            self.panda.graph.axes.plot(arr[:,0], arr[:,1])
+            self.panda.graph.update_graph()
 
 def puck_outside(posNplus1, xmin, xmax, ymin, ymax):
     """ Check if the position of the puck is outside the limits.
@@ -91,10 +103,9 @@ def space_derivative_energy(panda, poulpe, dq):
     """
     vecdqX = np.array([dq,0])
     vecdqY = np.array([0,dq])
-    m = np.array([0, 0, panda.m])
-    derivativeX = np.divide((poulpe.compute_field(panda.pos+vecdqX)@m-poulpe.compute_field(panda.pos-vecdqX)@m ),2*dq)
-    derivativeY = np.divide( poulpe.compute_field(panda.pos+vecdqY)@m
-                            -poulpe.compute_field(panda.pos-vecdqY)@m,2*dq)
+    derivativeX = np.divide((poulpe.compute_field(panda.pos+vecdqX)@panda.m-poulpe.compute_field(panda.pos-vecdqX)@panda.m ),2*dq)
+    derivativeY = np.divide( poulpe.compute_field(panda.pos+vecdqY)@panda.m
+                            -poulpe.compute_field(panda.pos-vecdqY)@panda.m,2*dq)
     vecDerivative = (-1)*np.array([derivativeX, derivativeY])
     return vecDerivative
 
@@ -113,12 +124,11 @@ def forceOutsideBounds(panda, pos, poulpe, dq):
     """
     vecdqX = np.array([dq,0])
     vecdqY = np.array([0,dq])
-    m = np.array([0, 0, panda.m])
-    derivativeX = np.multiply( poulpe.compute_field(pos+vecdqX)@m
-                   -poulpe.compute_field(pos-vecdqX)@m)
+    derivativeX = np.multiply( poulpe.compute_field(pos+vecdqX)@self.m
+                   -poulpe.compute_field(pos-vecdqX)@self.m)
     derivativeX = np.divide(derivativeX,2*dq)
-    derivativeY = ( poulpe.compute_field(pos+vecdqY)@m
-                   -poulpe.compute_field(pos-vecdqY)@m)/(2*dq)
+    derivativeY = ( poulpe.compute_field(pos+vecdqY)@self.m
+                   -poulpe.compute_field(pos-vecdqY)@self.m)/(2*dq)
     vecDerivative = (-1)*np.array([derivativeX, derivativeY])
     return vecDerivative
 
@@ -128,8 +138,7 @@ def verlet_step_1(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
 
     q1 = q0 + v0*dt + 0.5*dt^2*dU(q0)/dq
 
-    Args:
-        panda (Panda)
+    Args: panda (Panda)
         poulpe (Poulpe)
         dt (float) : time step
         dq (float) : space step

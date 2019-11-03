@@ -16,7 +16,7 @@ class Calmar:
     def __init__(self, m, pos ):
         self.pos = pos
         self.m = m
-        self.eps = 1e-6
+        self.eps = 1e-3
     """
     Desc: Calcule la contribution de l'aimant a un point rpos
 
