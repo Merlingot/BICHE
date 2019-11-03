@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.tri as tri
 from Calmar import Calmar
-
+import matplotlib.colors as colors
 ## Classe utiliser pour obtenir le champs magnetique en tout point grace a une liste de aimants (Calmar)
 
 ############## SSSSSSSSQQQQQQQQQQQQUUUUUUUUUIIIIIIIIIIIIDDDDDDDDDDDDD ###################
@@ -16,6 +16,8 @@ class Poulpe:
     def __init__(self, vision=None):
         self.listeCalmar = []
         self.vision = vision
+
+        self.initiate_mesh()
 
     """
     Desc : Ajoute un aimant a la liste d'aimant
@@ -68,35 +70,54 @@ class Poulpe:
 
         return Btot
 
+    def initiate_mesh(self):
+
+
+        x = self.vision.axes.get_xlim()
+        y = self.vision.axes.get_ylim()
+        self.X = np.linspace( x[0], x[1], 100 )
+        self.Y = np.linspace( y[0], y[1], 100 )
+
+        self.xx, self.yy = np.meshgrid(self.X,self.Y)
+
+        #mesh = tri.Triangulation( X, Y )
+
+        #print(mesh)
+
+        i=0
+        field = np.zeros((self.X.size, self.Y.size))
+        for x in self.X:
+            j=0
+            for y in self.Y:
+                field[i][j] = self.compute_field(np.array([x,y]))[2]
+                j += 1
+            i+=1
+
+
+
+        #cont = self.vision.axes.tricontourf(mesh, field)
+        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=0.03, linscale = 0.03, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
+        #self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=0.03, linscale = 0.03, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
+            
+        self.vision.update_graph()
+
     """
     Desc : Update values dans le graph GUI VISION grace a la fonction compute_field
     """
     def update_mesh(self):
-
-        x = self.vision.axes.get_xlim()
-        y = self.vision.axes.get_ylim()
-        X = np.linspace( x[0], x[1], 10000 )
-        Y = np.linspace( y[0], y[1], 10000 )
-
-        xx, yy = np.meshgrid(X,Y)
-
-        #mesh = tri.Triangulation( X, Y )
         
-        #print(mesh)
 
         i=0
-        field = np.zeros((X.size, Y.size))
-        for x in X:
+        field = np.zeros((self.X.size, self.Y.size))
+        for x in self.X:
             j=0
-            for y in Y:
+            for y in self.Y:
                 field[i][j] = self.compute_field(np.array([x,y]))[2]
                 j += 1
             i+=1
-        
-        
 
         #cont = self.vision.axes.tricontourf(mesh, field)
-        c = self.vision.axes.pcolormesh(xx, yy,field,cmap='RdBu',vmin=-np.abs(field).max(),vmax=np.abs(field).max())
+        self.vision.axes.pcolormesh(self.xx, self.yy,field,cmap='RdBu', norm = colors.SymLogNorm(linthresh=0.03, linscale = 0.03, vmin=-np.abs(field).max(),vmax=np.abs(field).max()) )
         #self.vision.Fig.colormap(c, ax = self.vision.axes)
-
+            
         self.vision.update_graph()

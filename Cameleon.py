@@ -41,7 +41,7 @@ class Cameleon:
         self.axes = self.Fig.add_axes([0.1, 0.1, 0.87, 0.87])
         self.axes.set_aspect('auto', adjustable='box')
         self.axes.set_adjustable('box')
-        self.Line, = self.axes.plot([], [])
+        #self.Line, = self.axes.plot([], [])
         self.axes.tick_params(axis='both', which='major', labelsize=8)
         self.axes.grid()
         self.axes.set_xlabel(r'' + axis_name[0])

@@ -27,7 +27,7 @@ class Faucon:
 		calmarList = []
 		for key in self.dictHyene:
 			calmarList.append(Calmar(self.dictHyene[key].force,self.dictHyene[key].pos))
-			self.poulpe.set_calmars(calmarList)
+		self.poulpe.set_calmars(calmarList)
 
 	#Mise a jour du graphique
 	def update_graphB(self):
