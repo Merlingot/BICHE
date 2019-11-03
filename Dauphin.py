@@ -35,20 +35,24 @@ class Dauphin:
         """
         # n=1 step -------------------------------------------------
         # Calculate next position (and velocity - TO DO)
-        pos1 = verlet_step_1(self.panda, self.poulpe, self.dt, self.dq, self.xmin, self.xmax, self.ymin, self.ymax)
+        pos1 = verlet_step_1(self.panda, self.poulpe, self.dt, self.dq)
         # n>1 steps ------------------------------------------------
         if N > 1:
             for n in range(N-1):
                 # Calculate next position (and velocity - TO DO)
-                posn = verlet_step_n(self.panda, self.poulpe, self.dt, self.dq, self.xmin, self.xmax, self.ymin, self.ymax)
+                posn = verlet_step_n(self.panda, self.poulpe, self.dt, self.dq)
 
 
-def puck_outside(posNplus1, xmin, xmax, ymin, ymax):
-    """ Check if the position of the puck is outside the limits.
-    If is outside, return True """
-    if  posNplus1[0]<xmin or posNplus1[0]>xmax or ymin>posNplus1[1] or posNplus1[0]>ymax:
-        return True
+    def puck_inside(pos):
+        """ Check if the position of the puck is inside the limits.
+        If is inside, return True """
+        if self.xmin < pos[0] < self.xmax and self.ymin < pos[1] < self.ymax:
+            return True
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 2e9ddc9... dauphin reflectif
 
 
 def space_derivative_energy(panda, poulpe, dq):
@@ -72,7 +76,7 @@ def space_derivative_energy(panda, poulpe, dq):
     return vecDerivative
 
 
-def verlet_step_1(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
+def verlet_step_1(panda, poulpe, dt, dq):
     """First step of Verlet integration
     Calculates position at time n=1 from intial conditions
 
@@ -88,20 +92,23 @@ def verlet_step_1(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
     """
     force0=space_derivative_energy(panda, poulpe, dq)
     pos1 = panda.pos + panda.vit*dt +(0.5)*(dt**2)*force0/panda.mass
-    # Update position
+    # Update position (and velocity - TO DO)
     panda.update_pos(pos1)
-    # Calcul vitesse
     force1 = space_derivative_energy(panda, poulpe, dq)
     vit1 = panda.vit + 0.5*dt*(force0 + force1)/panda.mass
     # Update velocity
     panda.update_vit(vit1)
+<<<<<<< HEAD
     # outside ?
     if puck_outside(pos1, xmin, xmax, ymin, ymax):
         # panda.reflection(panda, xmin, xmax, ymin, ymax)
         pass
     return panda.pos
+=======
+    return pos1
+>>>>>>> parent of 2e9ddc9... dauphin reflectif
 
-def verlet_step_n(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
+def verlet_step_n(panda, poulpe, dt, dq):
     """ Step n>1 of Verlet integration
     Calculates next position from current position
 
@@ -119,13 +126,16 @@ def verlet_step_n(panda, poulpe, dt, dq, xmin, xmax, ymin, ymax):
     posNplus1 = 2*panda.pos - panda.lastPos + (dt**2)*forceN/panda.mass
     # Update position
     panda.update_pos(posNplus1)
-    # calculer vitesse
     forceNplus1 = space_derivative_energy(panda, poulpe, dq)
     vitNplus1 = panda.vit + 0.5*dt*(forceN + forceNplus1)/panda.mass
     # Update velocity
     panda.update_vit(vitNplus1)
+<<<<<<< HEAD
     # outside ?
     if puck_outside(posNplus1, xmin, xmax, ymin, ymax):
         # panda.reflection(xmin, xmax, ymin, ymax)
         pass
     return panda.pos
+=======
+    return posNplus1
+>>>>>>> parent of 2e9ddc9... dauphin reflectif

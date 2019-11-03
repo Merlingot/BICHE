@@ -73,7 +73,7 @@ class Panda:
 
         #Corriger les array
         self.storePos[-1]=self.pos
-        self.storePos[-1]=self.vit
+        self.storePos[-1]=self.Vit
 
 
     """
