@@ -20,17 +20,17 @@ class Lion(tk.Tk):
         image = tk.PhotoImage(master=self, file=directory / 'Owww.gif')
         tk.Tk.wm_iconphoto(self, '-default', image)
         hyene = Hyene(self)
-        hyene.grid(row=2, column=3, rowspan=2)
+        hyene.grid(row=3, column=3)
         lionceau = Lionceau(self)
-        lionceau.grid(row=2, column=0, rowspan=2)
+        lionceau.grid(row=2, column=3)
         fourmi = Fourmi(self)
-        fourmi.grid(row=2, column=1, rowspan=2)
+        fourmi.grid(row=1, column=3)
         lionneQuiJuge = LionneQuiJuge(self)
-        lionneQuiJuge.grid(row=0, column=3)
+        #lionneQuiJuge.grid(row=0, column=3)
         lionneQuiSurveille = LionneQuiSurveille(self)
-        lionneQuiSurveille.grid(row=1, column=3)
+        #lionneQuiSurveille.grid(row=1, column=3)
         lionneQuiRegarde = LionneQuiRegarde(self)
-        lionneQuiRegarde.grid(row=0, column=0, columnspan=3, rowspan=2)
+        lionneQuiRegarde.grid(row=0, column=0, columnspan=3, rowspan=4)
         faucon= Faucon(lionceau, hyene.dictHyene,
                        lionneQuiJuge.course,
                        lionneQuiRegarde.vision,
@@ -45,7 +45,7 @@ class Lion(tk.Tk):
         faucon.link_panda_to_graph(cameleon, lionneQuiRegarde.vision)
         GETTHISSHITDONE = tk.Button(self, text='RUN THIS SHIT',
                                     command=lambda:faucon.run_simulation())
-        GETTHISSHITDONE.grid(row=2, column=2, sticky='nsew', rowspan=2)
+        GETTHISSHITDONE.grid(row=0, column=3, sticky='nsew')
 
         for i in range(2):
             self.grid_columnconfigure(i, weight=1)
